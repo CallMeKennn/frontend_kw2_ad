@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&display=swap');
+
+:root {
+     --neon-pink: #ff2e63;
+     --neon-purple: #9d4edd;
+     --neon-blue: #00f5ff;
+     --neon-green: #39ff14;
+     --cyber-dark: #0a0b1e;
+     --cyber-light: #2a2b3d;
+}
+
+/* Neon Text Effects */
+.neon-text {
+     background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink), var(--neon-blue));
+     background-size: 300% 100%;
+     -webkit-background-clip: text;
+     background-clip: text;
+     color: transparent;
+     animation: gradientMove 8s linear infinite;
+}
+
+/* Neon Box Effects */
+.neon-box {
+     background: rgba(42, 43, 61, 0.5);
+     border-radius: 15px;
+     box-shadow: 0 0 10px rgba(0, 245, 255, 0.2), 0 0 20px rgba(0, 245, 255, 0.1),
+          inset 0 0 30px rgba(0, 245, 255, 0.05);
+     backdrop-filter: blur(20px);
+     border: 1px solid rgba(0, 245, 255, 0.1);
+     transform-style: preserve-3d;
+     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.neon-box:hover {
+     transform: scale(1.02) translateZ(20px);
+     box-shadow: 0 0 20px rgba(0, 245, 255, 0.3), 0 0 40px rgba(0, 245, 255, 0.2), inset 0 0 50px rgba(0, 245, 255, 0.1);
+}
+
+/* Menu Item Hover Effects */
+.menu-item {
+     position: relative;
+     overflow: hidden;
+}
+
+.menu-item::before {
+     content: '';
+     position: absolute;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     background: linear-gradient(90deg, rgba(0, 245, 255, 0.1) 0%, transparent 100%);
+     transform: translateX(-100%);
+     transition: transform 0.3s ease;
+}
+
+.menu-item:hover::before {
+     transform: translateX(0);
+}
+
+.menu-item:hover .menu-icon {
+     color: var(--neon-blue);
+     transform: scale(1.2);
+}
+
+/* Active Menu Item */
+.menu-item.active {
+     background: linear-gradient(90deg, rgba(0, 245, 255, 0.2) 0%, transparent 100%);
+     border-left: 3px solid var(--neon-blue);
+}
+
+/* Neon Border Effects */
+.neon-border {
+     border: 1px solid rgba(0, 245, 255, 0.1);
+     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.neon-border:hover {
+     border-color: var(--neon-blue);
+     box-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+}
+
+/* Neon Button Effects */
+.neon-button {
+     background: transparent;
+     border: 1px solid var(--neon-blue);
+     color: var(--neon-blue);
+     padding: 8px 16px;
+     border-radius: 4px;
+     transition: all 0.3s ease;
+     position: relative;
+     overflow: hidden;
+}
+
+.neon-button::before {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: -100%;
+     width: 100%;
+     height: 100%;
+     background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.2), transparent);
+     transition: left 0.3s ease;
+}
+
+.neon-button:hover {
+     background: rgba(0, 245, 255, 0.1);
+     box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+}
+
+.neon-button:hover::before {
+     left: 100%;
+}
+
+/* Secondary Neon Button */
+.neon-button-secondary {
+     background: transparent;
+     border: 1px solid var(--neon-purple);
+     color: var(--neon-purple);
+     padding: 8px 16px;
+     border-radius: 4px;
+     transition: all 0.3s ease;
+     position: relative;
+     overflow: hidden;
+     cursor: pointer;
+}
+
+.neon-button-secondary::before {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: -100%;
+     width: 100%;
+     height: 100%;
+     background: linear-gradient(90deg, transparent, rgba(157, 78, 221, 0.2), transparent);
+     transition: left 0.3s ease;
+}
+
+.neon-button-secondary:hover {
+     background: rgba(157, 78, 221, 0.1);
+     box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);
+}
+
+.neon-button-secondary:hover::before {
+     left: 100%;
+}
+
+/* Hologram Effect */
+.hologram {
+     position: relative;
+     transform-style: preserve-3d;
+     animation: hologramFloat 3s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes gradientMove {
+     0% {
+          background-position: 0% 50%;
+     }
+     100% {
+          background-position: 300% 50%;
+     }
+}
+
+@keyframes hologramFloat {
+     0%,
+     100% {
+          transform: translateY(0) rotateX(0);
+     }
+     50% {
+          transform: translateY(-10px) rotateX(5deg);
+     }
+}
+
+/* Neon Scrollbar */
+::-webkit-scrollbar {
+     width: 8px;
+}
+
+::-webkit-scrollbar-track {
+     background: var(--cyber-dark);
+}
+
+::-webkit-scrollbar-thumb {
+     background: linear-gradient(var(--neon-blue), var(--neon-purple));
+     border-radius: 4px;
+}
