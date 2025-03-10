@@ -18,6 +18,7 @@ import { useAppDispatch, useAppSelector } from '@/core/hook';
 import { AuthSelector } from '@/redux/auth/selector';
 import { login } from '@/redux/auth/thunk';
 import { z } from 'zod';
+import { AppAction } from '@/redux/app/AppSlice';
 import './auth.style.css';
 
 const formSchema = z.object({
@@ -137,13 +138,6 @@ export default function LoginPage() {
           }
      }, []);
 
-     // useEffect(() => {
-     //      const accessToken = localStorage.getItem('ACCESS_TOKEN');
-     //      if (accessToken) {
-     //           router.push('/create-form'); // Chuyển hướng nếu đã đăng nhập
-     //      }
-     // }, []);
-
      // Prefetch routes
      useEffect(() => {
           router.prefetch('/dashboard');
@@ -152,26 +146,21 @@ export default function LoginPage() {
 
      async function onSubmit(values: z.infer<typeof formSchema>) {
           try {
+               dispatch(AppAction.showLoading());
                const dataLogin = await dispatch(login({ email: values.email, password: values.password })).unwrap();
                localStorage.setItem('ACCESS_TOKEN', dataLogin.accessToken);
                localStorage.setItem('USER_INFO', JSON.stringify(dataLogin.user));
                setTimeout(() => {
                     if (dataLogin) {
+                         dispatch(AppAction.hiddenLoading());
                          router.push(`/create-form`);
                     }
                }, 2000);
           } catch (error: unknown) {
+               dispatch(AppAction.hiddenLoading());
                const toastId = toast.error(error as string);
                toast.dismiss(toastId);
           }
-     }
-
-     if (loading === 'loading') {
-          return (
-               <div className="fixed inset-0 flex items-center justify-center bg-cyber-dark">
-                    <LoadingLogin title="Đang tiến hành đăng nhập" />
-               </div>
-          );
      }
 
      return (

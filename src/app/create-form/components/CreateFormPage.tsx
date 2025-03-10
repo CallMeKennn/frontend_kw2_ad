@@ -55,10 +55,6 @@ const CreateFormPage = () => {
           }
      }, [status]);
 
-     useEffect(() => {
-          console.log({ startDate });
-     }, [startDate]);
-
      const handleCountryChange = (e: any, countryId: string) => {
           const checked = e.target.checked;
 

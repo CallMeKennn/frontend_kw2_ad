@@ -52,7 +52,6 @@ const VideoSlice = createSlice({
                })
                .addCase(getAllVideoByUserId.fulfilled, (state: VideoState, { payload }: PayloadAction<any>) => {
                     const { videos, total, page, limit, totalPages } = payload.data;
-                    console.log({ payload });
                     state.status = 'succeeded';
                     state.videos = videos;
                     state.limit = limit;
