@@ -8,7 +8,7 @@ export const VideoRequest = {
           return MSTFetch.post(`/video-requests`, body);
      },
 
-     getAllVideoByUserId(userId: any, filter: any) {
-          return MSTFetch.get(`/videos/user/${userId}?${qs.stringify(filter)}`);
+     getAllVideoByUserId(filter: any) {
+          return MSTFetch.get(`/videos/user/me?${qs.stringify(filter)}`);
      },
 };

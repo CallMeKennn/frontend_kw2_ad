@@ -22,8 +22,7 @@ export const getAllVideoByUserId = createAsyncThunk(
      'video/get-All-Video-By-UserId',
      async (request: any, { rejectWithValue }) => {
           try {
-               const { userId, filter }: any = request;
-               const response = await VideoRequest.getAllVideoByUserId(userId, filter);
+               const response = await VideoRequest.getAllVideoByUserId(request);
                return response.data;
           } catch (error: any) {
                toast.error(error.response.data.message);

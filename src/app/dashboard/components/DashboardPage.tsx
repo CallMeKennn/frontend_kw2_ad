@@ -220,17 +220,14 @@ const DashboardPage = () => {
           setStatusFilter(key);
           dispatch(
                getAllVideoByUserId({
-                    userId: userID,
-                    filter: {
-                         page,
-                         limit,
-                         statusVideoLocal: key,
-                         countryId: countriesFilter,
-                         topicId: topicsFilter,
-                         startDate: searchDate[0],
-                         endDate: searchDate[1],
-                         email: searchText,
-                    },
+                    page,
+                    limit,
+                    statusVideoLocal: key,
+                    countryId: countriesFilter,
+                    topicId: topicsFilter,
+                    startDate: searchDate[0],
+                    endDate: searchDate[1],
+                    email: searchText,
                }),
           );
      };
@@ -240,17 +237,14 @@ const DashboardPage = () => {
           setCountriesFilter(key);
           dispatch(
                getAllVideoByUserId({
-                    userId: userID,
-                    filter: {
-                         page,
-                         limit,
-                         statusVideoLocal: statusFilter,
-                         countryId: key,
-                         topicId: topicsFilter,
-                         startDate: searchDate[0],
-                         endDate: searchDate[1],
-                         email: searchText,
-                    },
+                    page,
+                    limit,
+                    statusVideoLocal: statusFilter,
+                    countryId: key,
+                    topicId: topicsFilter,
+                    startDate: searchDate[0],
+                    endDate: searchDate[1],
+                    email: searchText,
                }),
           );
      };
@@ -260,17 +254,14 @@ const DashboardPage = () => {
           setTopicsFilter(key);
           dispatch(
                getAllVideoByUserId({
-                    userId: userID,
-                    filter: {
-                         page,
-                         limit,
-                         statusVideoLocal: statusFilter,
-                         countryId: countriesFilter,
-                         topicId: key,
-                         startDate: searchDate[0],
-                         endDate: searchDate[1],
-                         email: searchText,
-                    },
+                    page,
+                    limit,
+                    statusVideoLocal: statusFilter,
+                    countryId: countriesFilter,
+                    topicId: key,
+                    startDate: searchDate[0],
+                    endDate: searchDate[1],
+                    email: searchText,
                }),
           );
      };
@@ -280,17 +271,14 @@ const DashboardPage = () => {
           if (!userID) return;
           dispatch(
                getAllVideoByUserId({
-                    userId: userID,
-                    filter: {
-                         page,
-                         limit,
-                         statusVideoLocal: statusFilter,
-                         countryId: countriesFilter,
-                         topicId: topicsFilter,
-                         startDate: searchDate[0],
-                         endDate: searchDate[1],
-                         email: searchText,
-                    },
+                    page,
+                    limit,
+                    statusVideoLocal: statusFilter,
+                    countryId: countriesFilter,
+                    topicId: topicsFilter,
+                    startDate: searchDate[0],
+                    endDate: searchDate[1],
+                    email: searchText,
                }),
           );
      };
@@ -310,17 +298,14 @@ const DashboardPage = () => {
           setSearchDate([startDate, endDate]);
           dispatch(
                getAllVideoByUserId({
-                    userId: userID,
-                    filter: {
-                         page,
-                         limit,
-                         statusVideoLocal: statusFilter,
-                         countryId: countriesFilter,
-                         topicId: topicsFilter,
-                         startDate,
-                         endDate,
-                         email: searchText,
-                    },
+                    page,
+                    limit,
+                    statusVideoLocal: statusFilter,
+                    countryId: countriesFilter,
+                    topicId: topicsFilter,
+                    startDate,
+                    endDate,
+                    email: searchText,
                }),
           );
      };
@@ -361,7 +346,6 @@ const DashboardPage = () => {
                          </div>
                     ),
                },
-               //Còn 2 trường chủ đề và quốc gia
                {
                     title: 'Quốc gia',
                     dataIndex: 'countryId',
