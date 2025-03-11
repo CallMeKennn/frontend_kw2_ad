@@ -90,6 +90,10 @@ const DashboardPage = () => {
      const [searchText, setSearchText] = useState('');
      const [searchDate, setSearchDate] = useState<any>('');
 
+     // useEffect(() => {
+     //      console.log({ page });
+     // }, [page]);
+
      //Đây là API để gọi để check liên tục
      // useEffect(() => {
 
@@ -461,8 +465,9 @@ const DashboardPage = () => {
      }, [countries, topics]);
 
      const handleChangePage = async (page: any, limit: any) => {
+          console.log({ page });
           dispatch(AppAction.showLoading());
-          await dispatch(getAllVideoByUserId({ userId: userID, filter: { page, limit } }));
+          await dispatch(getAllVideoByUserId({ page, limit }));
           dispatch(AppAction.hiddenLoading());
      };
 
@@ -599,7 +604,10 @@ const DashboardPage = () => {
                     >
                          <Table
                               columns={columns}
-                              dataSource={videos.map((item: any, index: number) => ({ key: index + 1, ...item }))}
+                              dataSource={videos.map((item: any, index: number) => ({
+                                   key: (page - 1) * 10 + index + 1,
+                                   ...item,
+                              }))}
                               className="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-2xl"
                               pagination={{
                                    total: total,
