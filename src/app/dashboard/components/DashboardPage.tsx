@@ -193,11 +193,11 @@ const DashboardPage = () => {
      const returnStatusVideoLocal = (status: string) => {
           const statusMap: Record<string, number> = {
                created: 1,
-               sent_create_video: 2,
+               sent_create_video_success: 2,
                receive_video_link_success: 3,
                send_upload_video_success: 4,
                wait_for_upload_video: 5,
-               receive_upload_link_success: 6,
+               receive_upload_video_success: 6,
           };
 
           const statusIndex = statusMap[status] ?? -1;
