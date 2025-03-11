@@ -48,7 +48,23 @@ import { AppAction } from '@/redux/app/AppSlice';
 
 const DashboardPage = () => {
      const dispatch = useAppDispatch();
-     const userID = JSON.parse(localStorage.getItem('USER_INFO') || '')._id;
+     const [userID, setUserID] = useState<string>('');
+
+     useEffect(() => {
+          // Check if window is defined (meaning we're on client side)
+          if (typeof window !== 'undefined') {
+               try {
+                    const userInfo = localStorage.getItem('USER_INFO');
+                    if (userInfo) {
+                         const parsedUserInfo = JSON.parse(userInfo);
+                         setUserID(parsedUserInfo._id);
+                    }
+               } catch (error) {
+                    console.error('Error parsing user info:', error);
+               }
+          }
+     }, []);
+
      const { RangePicker } = DatePicker;
 
      // Progress Color
@@ -167,10 +183,12 @@ const DashboardPage = () => {
      ];
 
      useEffect(() => {
-          dispatch(getAllVideoByUserId({ userId: userID, filter: { page, limit } }));
-          dispatch(getAllCountry({}));
-          dispatch(getAllTopic({}));
-     }, []);
+          if (userID) {
+               dispatch(getAllVideoByUserId({ userId: userID, filter: { page, limit } }));
+               dispatch(getAllCountry({}));
+               dispatch(getAllTopic({}));
+          }
+     }, [dispatch, userID, page, limit]);
 
      const returnStatusVideoLocal = (status: string) => {
           const statusMap: Record<string, number> = {
@@ -259,6 +277,7 @@ const DashboardPage = () => {
 
      //Search by text
      const handleSearch = () => {
+          if (!userID) return;
           dispatch(
                getAllVideoByUserId({
                     userId: userID,
@@ -462,6 +481,10 @@ const DashboardPage = () => {
           await dispatch(getAllVideoByUserId({ userId: userID, filter: { page, limit } }));
           dispatch(AppAction.hiddenLoading());
      };
+
+     if (!userID) {
+          return <div className="min-h-screen p-8 flex items-center justify-center">Loading...</div>;
+     }
 
      return (
           <div className="min-h-screen p-8">
