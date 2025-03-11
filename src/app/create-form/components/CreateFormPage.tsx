@@ -19,6 +19,7 @@ interface FormDataItem {
      countryId: string;
      startDate: string;
      email: string;
+     context: string;
 }
 
 const CreateFormPage = () => {
@@ -33,6 +34,7 @@ const CreateFormPage = () => {
      const [formData, setFormData] = useState<FormDataItem[]>([]);
      const [videoCount, setVideoCount] = useState(1);
      const [topicId, setTopicId] = useState('');
+     const [context, setContext] = useState('');
      const [startDate, setStartDate] = useState(() => new Date().toISOString().slice(0, 16));
 
      useEffect(() => {
@@ -60,7 +62,7 @@ const CreateFormPage = () => {
 
           setFormData((prev) => {
                if (checked) {
-                    return [...prev, { videoCount, topicId, countryId, startDate, email: '' }];
+                    return [...prev, { videoCount, topicId, countryId, context, startDate, email: '' }];
                } else {
                     return prev.filter((item) => item.countryId !== countryId);
                }
@@ -112,6 +114,24 @@ const CreateFormPage = () => {
                               {topics.map((item: any) => (
                                    <option className="text-black" key={item._id} value={item._id}>
                                         {item.topic}
+                                   </option>
+                              ))}
+                         </select>
+                    </div>
+
+                    <div>
+                         <label className="block font-medium">Bối cảnh *</label>
+                         <select
+                              value={context}
+                              onChange={(e) => setContext(e.target.value)}
+                              className="w-full border p-2 rounded-md focus:ring focus:ring-blue-300 bg-[rgba(255,255,255,0.05)]"
+                         >
+                              <option className="text-black" value="">
+                                   Chọn bối cảnh
+                              </option>
+                              {countries.map((item: any) => (
+                                   <option className="text-black" key={item._id} value={item._id}>
+                                        {item.name}
                                    </option>
                               ))}
                          </select>
