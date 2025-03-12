@@ -188,11 +188,11 @@ const DashboardPage = () => {
 
      useEffect(() => {
           if (userID) {
-               dispatch(getAllVideoByUserId({ userId: userID, filter: { page, limit } }));
+               dispatch(getAllVideoByUserId({ page, limit }));
                dispatch(getAllCountry({}));
                dispatch(getAllTopic({}));
           }
-     }, [dispatch, userID, page, limit]);
+     }, [dispatch, userID]);
 
      const returnStatusVideoLocal = (status: string) => {
           const statusMap: Record<string, number> = {
