@@ -465,7 +465,6 @@ const DashboardPage = () => {
      }, [countries, topics]);
 
      const handleChangePage = async (page: any, limit: any) => {
-          console.log({ page });
           dispatch(AppAction.showLoading());
           await dispatch(getAllVideoByUserId({ page, limit }));
           dispatch(AppAction.hiddenLoading());
@@ -546,7 +545,7 @@ const DashboardPage = () => {
                                    </Dropdown>
                               )}
 
-                              {!_.isEmpty(countries) && (
+                              {!_.isEmpty(topics) && (
                                    <Dropdown
                                         menu={{
                                              items: topics.map((item: any) => ({

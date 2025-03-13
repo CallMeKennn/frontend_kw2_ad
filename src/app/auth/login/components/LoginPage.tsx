@@ -3,10 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import LoadingLogin from '@/components/ui/loading-login';
 import { PasswordInput } from '@/components/ui/password-input';
-// import { loginUserThunk } from '@/redux/auth/thunk';
-import { AppDispatch } from '@/redux/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle, LockKeyholeIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -139,10 +136,10 @@ export default function LoginPage() {
      }, []);
 
      // Prefetch routes
-     useEffect(() => {
-          router.prefetch('/dashboard');
-          router.prefetch('/create-form');
-     }, [router]);
+     // useEffect(() => {
+     //      router.prefetch('/dashboard');
+     //      router.prefetch('/create-form');
+     // }, [router]);
 
      async function onSubmit(values: z.infer<typeof formSchema>) {
           try {

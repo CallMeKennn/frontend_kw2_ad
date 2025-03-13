@@ -101,7 +101,7 @@ const registerInterceptorResponse = (clientInstance: AxiosInstance) => {
                }
 
                if (error.response && error.response.status === 403) {
-                    window.location.href = '/auth/login';
+                    // window.location.href = '/auth/login';
                     return Promise.reject(error);
                }
                return Promise.reject(error);

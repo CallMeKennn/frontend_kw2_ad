@@ -17,14 +17,14 @@ const MainMenu: MenuItem[] = [
      { id: 'create-form', icon: BiMovie, text: 'Tạo theo chủ đề', link: '/create-form' },
 ];
 
-const FreeServices: MenuItem[] = [
-     { id: 'language', icon: BiMovie, text: 'Chuyển Đổi Ngôn Ngữ' },
-     { id: 'video-ideas', icon: BiMovie, text: 'Tạo Ý Tưởng Video' },
-     { id: 'analytics', icon: BiPieChartAlt2, text: 'Phân Tích Video' },
-     { id: 'content', icon: BiPencil, text: 'Tạo Nội Dung Video' },
-     { id: 'title', icon: BiHeading, text: 'Tạo Tiêu Đề Video' },
-     { id: 'description', icon: BiAlignLeft, text: 'Tạo Mô Tả Video' },
-];
+// const FreeServices: MenuItem[] = [
+//      { id: 'language', icon: BiMovie, text: 'Chuyển Đổi Ngôn Ngữ' },
+//      { id: 'video-ideas', icon: BiMovie, text: 'Tạo Ý Tưởng Video' },
+//      { id: 'analytics', icon: BiPieChartAlt2, text: 'Phân Tích Video' },
+//      { id: 'content', icon: BiPencil, text: 'Tạo Nội Dung Video' },
+//      { id: 'title', icon: BiHeading, text: 'Tạo Tiêu Đề Video' },
+//      { id: 'description', icon: BiAlignLeft, text: 'Tạo Mô Tả Video' },
+// ];
 
 const Sidebar = () => {
      const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
@@ -99,7 +99,7 @@ const Sidebar = () => {
                </div>
 
                {/* Free Services */}
-               <div className="mt-8">
+               {/* <div className="mt-8">
                     <div className="text-xs text-blue-400 px-6 mb-2">
                          <BiGift className="inline mr-2" />
                          Dịch vụ miễn phí
@@ -107,7 +107,7 @@ const Sidebar = () => {
                     {FreeServices.map((item) => (
                          <MenuItem key={item.id} {...item} />
                     ))}
-               </div>
+               </div> */}
                {/* Auth Buttons */}
                <div className="absolute bottom-0 left-0 right-0 p-5 space-y-3">
                     <button
