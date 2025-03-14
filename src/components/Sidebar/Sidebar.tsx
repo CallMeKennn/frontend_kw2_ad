@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 import { BiBrain, BiMovie, BiPieChartAlt2, BiPencil, BiHeading, BiAlignLeft, BiGift, BiStar } from 'react-icons/bi';
 import './style.css';
