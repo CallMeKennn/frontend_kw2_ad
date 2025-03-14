@@ -14,7 +14,8 @@ interface MenuItem {
 
 const MainMenu: MenuItem[] = [
      { id: 'dashboard', icon: BiMovie, text: 'Trang chủ', link: '/dashboard' },
-     { id: 'create-form', icon: BiMovie, text: 'Tạo theo chủ đề', link: '/create-form' },
+     { id: 'create-form', icon: BiGift, text: 'Tạo theo chủ đề', link: '/create-form' },
+     // { id: 'manage-account', icon: BiPencil, text: 'Quản lý account', link: '/manage-account' },
 ];
 
 // const FreeServices: MenuItem[] = [
@@ -27,7 +28,7 @@ const MainMenu: MenuItem[] = [
 // ];
 
 const Sidebar = () => {
-     const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
+     const [activeMenuItem, setActiveMenuItem] = useState('create-form');
      const route = useRouter();
 
      useEffect(() => {

@@ -30,3 +30,17 @@ export const getAllVideoByUserId = createAsyncThunk(
           }
      },
 );
+
+export const getAllEmailManageByUserId = createAsyncThunk(
+     'video/get-All-Email-Manage-By-UserId',
+     async (request: any, { rejectWithValue }) => {
+          try {
+               const response = await VideoRequest.getAllEmailManageByUserId(request);
+               console.log({ response });
+               return response.data;
+          } catch (error: any) {
+               toast.error(error.response.data.message);
+               return rejectWithValue(error.response.data.message);
+          }
+     },
+);
