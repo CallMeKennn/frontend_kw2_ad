@@ -57,7 +57,6 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
 
      useEffect(() => {
           if (triggerSearch !== undefined) {
-               // This will run whenever triggerSearch changes
                handleSearchWithDebounce();
           }
      }, [triggerSearch]);
@@ -375,7 +374,7 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
                     dataIndex: 'topicId',
                     key: 'topicId',
                     render: (topicId: any) => (
-                         <div className="truncate">{topics?.find((item: any) => item._id === topicId).topic}</div>
+                         <div className="truncate">{topics?.find((item: any) => item?._id === topicId)?.topic}</div>
                     ),
                },
                {

@@ -131,7 +131,7 @@ const TableListEmail = ({ onSearchText }: Props) => {
                     title: 'Chủ đề',
                     dataIndex: 'topicId',
                     key: 'topicId',
-                    render: (_: any, record: any) => <div className="truncate">{record.topicId.topic}</div>,
+                    render: (_: any, record: any) => <div className="truncate">{record.topic}</div>,
                },
                {
                     title: 'Quốc gia',

@@ -36,7 +36,6 @@ export const getAllEmailManageByUserId = createAsyncThunk(
      async (request: any, { rejectWithValue }) => {
           try {
                const response = await VideoRequest.getAllEmailManageByUserId(request);
-               console.log({ response });
                return response.data;
           } catch (error: any) {
                toast.error(error.response.data.message);
