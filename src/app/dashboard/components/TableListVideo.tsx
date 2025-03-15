@@ -45,9 +45,22 @@ import { ProjectSelector } from '@/redux/countries/selector';
 import '@ant-design/v5-patch-for-react-19';
 import { AppAction } from '@/redux/app/AppSlice';
 
-const TableListVideo = () => {
+interface Props {
+     searchText: any;
+     onSearchText: any;
+     triggerSearch?: boolean;
+}
+
+const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
      const dispatch = useAppDispatch();
      const [userID, setUserID] = useState<string>('');
+
+     useEffect(() => {
+          if (triggerSearch !== undefined) {
+               // This will run whenever triggerSearch changes
+               handleSearchWithDebounce();
+          }
+     }, [triggerSearch]);
 
      useEffect(() => {
           // Check if window is defined (meaning we're on client side)
@@ -85,7 +98,6 @@ const TableListVideo = () => {
      const [statusFilter, setStatusFilter] = useState('');
      const [countriesFilter, setCountriesFilter] = useState('');
      const [topicsFilter, setTopicsFilter] = useState('');
-     const [searchText, setSearchText] = useState('');
      const [searchDate, setSearchDate] = useState<any>('');
 
      //Đây là API để gọi để check liên tục
@@ -499,7 +511,7 @@ const TableListVideo = () => {
                               <Input
                                    value={searchText}
                                    onChange={(e: any) => {
-                                        setSearchText(e.target.value);
+                                        onSearchText(e.target.value);
                                         handleSearchWithDebounce();
                                    }}
                                    prefix={<SearchOutlined />}

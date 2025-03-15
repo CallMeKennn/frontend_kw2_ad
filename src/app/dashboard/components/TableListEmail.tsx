@@ -4,20 +4,14 @@ import { useEffect, useState, useMemo } from 'react';
 
 //Antd
 import {
-     EyeOutlined,
-     EditOutlined,
-     DeleteOutlined,
      SearchOutlined,
      CheckOutlined,
-     CheckCircleOutlined,
      ClockCircleOutlined,
-     CloseCircleOutlined,
-     FilterOutlined,
      CalendarOutlined,
      SortDescendingOutlined,
 } from '@ant-design/icons';
-import { ConfigProvider, ProgressProps } from 'antd';
-import { Button, Dropdown, Input, Progress, Table, Avatar, Steps, Popover, DatePicker } from 'antd';
+import { ConfigProvider } from 'antd';
+import { Button, Dropdown, Input, Table, Avatar } from 'antd';
 
 import type { ColumnsType } from 'antd/es/table';
 
@@ -25,7 +19,6 @@ import type { ColumnsType } from 'antd/es/table';
 import { getAllEmailManageByUserId } from '@/redux/videos/thunk';
 import { getAllCountry } from '@/redux/countries/thunk';
 import { getAllTopic } from '@/redux/topics/thunk';
-import ModalScript from './ModalScript';
 
 //Functions
 import { getRandomColor } from '@/units/units';
@@ -33,9 +26,7 @@ import { useAppDispatch, useAppSelector } from '@/core/hook';
 import { useDebounce } from '@/hooks/hook';
 
 //Libraries
-import moment from 'moment';
 import _ from 'lodash';
-import dayjs from 'dayjs';
 
 //Selector
 import { VideoSelector } from '@/redux/videos/selector';
@@ -45,7 +36,11 @@ import { ProjectSelector } from '@/redux/countries/selector';
 import '@ant-design/v5-patch-for-react-19';
 import { AppAction } from '@/redux/app/AppSlice';
 
-const TableListEmail = () => {
+interface Props {
+     onSearchText: any;
+}
+
+const TableListEmail = ({ onSearchText }: Props) => {
      const dispatch = useAppDispatch();
 
      const [userID, setUserID] = useState<string>('');
@@ -110,7 +105,12 @@ const TableListEmail = () => {
                     dataIndex: 'email',
                     key: 'email',
                     render: (_: any, record: any) => (
-                         <div className="flex items-center gap-2 w-30">
+                         <div
+                              className="flex items-center gap-2 w-30 cursor-pointer"
+                              onClick={() => {
+                                   onSearchText(record.email);
+                              }}
+                         >
                               <Avatar
                                    shape="circle"
                                    style={{
