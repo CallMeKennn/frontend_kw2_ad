@@ -16,8 +16,8 @@ const DashboardPage = () => {
 
      return (
           <div className="min-h-screen p-8">
-               <TableListVideo searchText={searchText} onSearchText={setSearchText} triggerSearch={triggerSearch} />
                <TableListEmail onSearchText={handleSearchTextUpdate} />
+               <TableListVideo searchText={searchText} onSearchText={setSearchText} triggerSearch={triggerSearch} />
           </div>
      );
 };

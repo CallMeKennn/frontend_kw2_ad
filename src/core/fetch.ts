@@ -94,7 +94,6 @@ const registerInterceptorResponse = (clientInstance: AxiosInstance) => {
                               withCredentials: true,
                          });
                     } catch (err) {
-                         console.error('Error retrying request after token refresh', err);
                          window.location.href = '/auth/login';
                          return Promise.reject(err);
                     }

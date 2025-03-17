@@ -10,6 +10,8 @@ import {
      CalendarOutlined,
      SortDescendingOutlined,
 } from '@ant-design/icons';
+import { CiCircleRemove } from 'react-icons/ci';
+
 import { ConfigProvider } from 'antd';
 import { Button, Dropdown, Input, Table, Avatar } from 'antd';
 
@@ -60,9 +62,9 @@ const TableListEmail = ({ onSearchText }: Props) => {
           }
      }, []);
 
-     const limit = useAppSelector(VideoSelector.limit);
-     const page = useAppSelector(VideoSelector.page);
-     const total = useAppSelector(VideoSelector.total);
+     const limit = useAppSelector(VideoSelector.limitEmail);
+     const page = useAppSelector(VideoSelector.pageEmail);
+     const total = useAppSelector(VideoSelector.totalEmail);
 
      const topics = useAppSelector(TopicSelector.topics);
      const countries = useAppSelector(ProjectSelector.countries);
@@ -131,7 +133,7 @@ const TableListEmail = ({ onSearchText }: Props) => {
                     title: 'Chủ đề',
                     dataIndex: 'topicId',
                     key: 'topicId',
-                    render: (_: any, record: any) => <div className="truncate">{record.topic}</div>,
+                    render: (_: any, record: any) => <div className="truncate">{record.topicId?.topic}</div>,
                },
                {
                     title: 'Quốc gia',
@@ -190,7 +192,7 @@ const TableListEmail = ({ onSearchText }: Props) => {
 
      return (
           <>
-               <div className="text-4xl my-5">Bảng DEF</div>
+               <div className="text-4xl mb-5">Danh sách Emails</div>
                <div className="bg-glass-bg bg-transparent backdrop-blur-xl border border-glass-border rounded-2xl p-6 mb-8">
                     <div className="flex gap-4 items-center">
                          <ConfigProvider
@@ -281,6 +283,19 @@ const TableListEmail = ({ onSearchText }: Props) => {
                                         </Button>
                                    </Dropdown>
                               )}
+
+                              <Button
+                                   onClick={() => {
+                                        dispatch(getAllEmailManageByUserId({ page, limit }));
+                                        setCountriesFilter('');
+                                        setSearchText('');
+                                        setTopicsFilter('');
+                                   }}
+                                   className="bg-transparent text-white"
+                                   icon={<CiCircleRemove />}
+                              >
+                                   Xóa Filter
+                              </Button>
                          </ConfigProvider>
                     </div>
                </div>
@@ -316,7 +331,7 @@ const TableListEmail = ({ onSearchText }: Props) => {
                                    showSizeChanger: true,
                                    showTotal: (total, range) => {
                                         return (
-                                             <div className="text-white">{`Hiển thị ${range[0]}-${range[1]} của ${total} dự án`}</div>
+                                             <div className="text-white">{`Hiển thị ${range[0]}-${range[1]} của ${total} email`}</div>
                                         );
                                    },
                                    onChange: handleChangePage,

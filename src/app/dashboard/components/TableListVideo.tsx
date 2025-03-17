@@ -16,6 +16,8 @@ import {
      CalendarOutlined,
      SortDescendingOutlined,
 } from '@ant-design/icons';
+import { CiCircleRemove } from 'react-icons/ci';
+
 import { ConfigProvider, ProgressProps } from 'antd';
 import { Button, Dropdown, Input, Progress, Table, Avatar, Steps, Popover, DatePicker } from 'antd';
 
@@ -482,7 +484,7 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
      return (
           <>
                {/* Filter */}
-               <div className="text-4xl mb-5">Bảng ABC</div>
+               <div className="text-4xl my-5">Danh sách Videos</div>
                <div className="bg-glass-bg bg-transparent backdrop-blur-xl border border-glass-border rounded-2xl p-6 mb-8">
                     <div className="flex gap-4 items-center">
                          <ConfigProvider
@@ -585,6 +587,21 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
                                    value={searchDate ? [dayjs(searchDate[0]), dayjs(searchDate[1])] : null}
                                    onChange={handleDateChange}
                               />
+
+                              <Button
+                                   onClick={() => {
+                                        dispatch(getAllVideoByUserId({ page, limit }));
+                                        setCountriesFilter('');
+                                        setStatusFilter('');
+                                        setSearchDate('');
+                                        setTopicsFilter('');
+                                        onSearchText('');
+                                   }}
+                                   className="bg-transparent text-white"
+                                   icon={<CiCircleRemove />}
+                              >
+                                   Xóa Filter
+                              </Button>
                          </ConfigProvider>
                     </div>
                </div>
