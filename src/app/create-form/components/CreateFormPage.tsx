@@ -19,7 +19,7 @@ interface FormDataItem {
      videoCount: number;
      topicId: string;
      countryId: string;
-     startDate: string;
+     startDate?: string;
      email?: string;
 }
 
@@ -35,11 +35,12 @@ const CreateFormPage = () => {
      const [formData, setFormData] = useState<FormDataItem[]>([]);
      const [videoCount, setVideoCount] = useState(1);
      const [topicId, setTopicId] = useState('');
-     const [startDate, setStartDate] = useState(() => {
-          const now = new Date();
-          now.setDate(now.getDate() + 1);
-          return now.toISOString().slice(0, 16);
-     });
+     // const [startDate, setStartDate] = useState(() => {
+     //      const now = new Date();
+     //      now.setDate(now.getDate() + 1);
+     //      return now.toISOString().slice(0, 16);
+     // });
+     const [startDate, setStartDate] = useState('');
      const [availableLanguages, setAvailableLanguages] = useState<string[]>([]);
      const [errors, setErrors] = React.useState<any>({});
 
@@ -70,12 +71,19 @@ const CreateFormPage = () => {
                     const languageIds = selectedTopic.language.map((lang: any) => lang._id);
                     setAvailableLanguages(languageIds);
 
-                    const newFormData = languageIds.map((countryId: any) => ({
-                         videoCount,
-                         topicId,
-                         countryId,
-                         startDate,
-                    }));
+                    const newFormData = languageIds.map((countryId: any) => {
+                         const item: FormDataItem = {
+                              videoCount,
+                              topicId,
+                              countryId,
+                         };
+
+                         if (startDate.trim() !== '') {
+                              item.startDate = startDate;
+                         }
+
+                         return item;
+                    });
 
                     setFormData(newFormData);
                } else {
@@ -93,7 +101,17 @@ const CreateFormPage = () => {
 
           setFormData((prev) => {
                if (checked) {
-                    return [...prev, { videoCount, topicId, countryId, startDate }];
+                    const newItem: FormDataItem = {
+                         videoCount,
+                         topicId,
+                         countryId,
+                    };
+
+                    if (startDate.trim() !== '') {
+                         newItem.startDate = startDate;
+                    }
+
+                    return [...prev, newItem];
                } else {
                     return prev.filter((item) => item.countryId !== countryId);
                }

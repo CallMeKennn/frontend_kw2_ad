@@ -52,9 +52,6 @@ export default function LoginPage() {
      const dispatch = useAppDispatch();
      const router = useRouter();
 
-     //State selector
-     const loading = useAppSelector(AuthSelector.status);
-
      //Ref
      const formRef = useRef<HTMLDivElement>(null);
      const containerRef = useRef<HTMLDivElement>(null);
@@ -62,8 +59,8 @@ export default function LoginPage() {
      const form = useForm<z.infer<typeof formSchema>>({
           resolver: zodResolver(formSchema),
           defaultValues: {
-               email: 'hken@gmail.com',
-               password: '123456',
+               email: '',
+               password: '',
           },
      });
 
@@ -136,10 +133,10 @@ export default function LoginPage() {
      }, []);
 
      // Prefetch routes
-     // useEffect(() => {
-     //      router.prefetch('/dashboard');
-     //      router.prefetch('/create-form');
-     // }, [router]);
+     useEffect(() => {
+          router.prefetch('/dashboard');
+          router.prefetch('/create-form');
+     }, [router]);
 
      async function onSubmit(values: z.infer<typeof formSchema>) {
           try {
@@ -150,7 +147,7 @@ export default function LoginPage() {
                setTimeout(() => {
                     if (dataLogin) {
                          dispatch(AppAction.hiddenLoading());
-                         router.push(`/create-form`);
+                         router.push(`/dashboard`);
                     }
                }, 2000);
           } catch (error: unknown) {

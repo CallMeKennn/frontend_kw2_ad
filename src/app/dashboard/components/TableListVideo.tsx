@@ -63,18 +63,30 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
           }
      }, [triggerSearch]);
 
+     // useEffect(() => {
+     //      // Check if window is defined (meaning we're on client side)
+     //      if (typeof window !== 'undefined') {
+     //           try {
+     //                const userInfo = localStorage.getItem('USER_INFO');
+     //                if (userInfo) {
+     //                     const parsedUserInfo = JSON.parse(userInfo);
+     //                     setUserID(parsedUserInfo._id);
+     //                }
+     //           } catch (error) {
+     //                console.error('Error parsing user info:', error);
+     //           }
+     //      }
+     // }, []);
+
      useEffect(() => {
-          // Check if window is defined (meaning we're on client side)
-          if (typeof window !== 'undefined') {
-               try {
-                    const userInfo = localStorage.getItem('USER_INFO');
-                    if (userInfo) {
-                         const parsedUserInfo = JSON.parse(userInfo);
-                         setUserID(parsedUserInfo._id);
-                    }
-               } catch (error) {
-                    console.error('Error parsing user info:', error);
+          try {
+               const userInfo = localStorage.getItem('USER_INFO');
+               if (userInfo) {
+                    const parsedUserInfo = JSON.parse(userInfo);
+                    setUserID(parsedUserInfo._id);
                }
+          } catch (error) {
+               console.error('Error parsing user info:', error);
           }
      }, []);
 
@@ -351,7 +363,7 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
                                    }}
                                    size={40}
                               >
-                                   {email.charAt(0).toUpperCase()}
+                                   {email?.charAt(0).toUpperCase()}
                               </Avatar>
                               <div className="text-sm text-gray-400">{email}</div>
                          </div>

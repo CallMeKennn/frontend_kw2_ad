@@ -47,18 +47,30 @@ const TableListEmail = ({ onSearchText }: Props) => {
 
      const [userID, setUserID] = useState<string>('');
 
+     // useEffect(() => {
+     //      // Check if window is defined (meaning we're on client side)
+     //      if (typeof window !== 'undefined') {
+     //           try {
+     //                const userInfo = localStorage.getItem('USER_INFO');
+     //                if (userInfo) {
+     //                     const parsedUserInfo = JSON.parse(userInfo);
+     //                     setUserID(parsedUserInfo._id);
+     //                }
+     //           } catch (error) {
+     //                console.error('Error parsing user info:', error);
+     //           }
+     //      }
+     // }, []);
+
      useEffect(() => {
-          // Check if window is defined (meaning we're on client side)
-          if (typeof window !== 'undefined') {
-               try {
-                    const userInfo = localStorage.getItem('USER_INFO');
-                    if (userInfo) {
-                         const parsedUserInfo = JSON.parse(userInfo);
-                         setUserID(parsedUserInfo._id);
-                    }
-               } catch (error) {
-                    console.error('Error parsing user info:', error);
+          try {
+               const userInfo = localStorage.getItem('USER_INFO');
+               if (userInfo) {
+                    const parsedUserInfo = JSON.parse(userInfo);
+                    setUserID(parsedUserInfo._id);
                }
+          } catch (error) {
+               console.error('Error parsing user info:', error);
           }
      }, []);
 
@@ -123,7 +135,7 @@ const TableListEmail = ({ onSearchText }: Props) => {
                                    }}
                                    size={40}
                               >
-                                   {record.email.charAt(0).toUpperCase()}
+                                   {record?.email?.charAt(0).toUpperCase()}
                               </Avatar>
                               <div className="text-sm text-gray-400">{record.email}</div>
                          </div>

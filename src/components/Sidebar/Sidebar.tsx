@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BiBrain, BiMovie, BiPieChartAlt2, BiPencil, BiHeading, BiAlignLeft, BiGift, BiStar } from 'react-icons/bi';
 import './style.css';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface MenuItem {
      id: string;
@@ -26,7 +27,7 @@ const MainMenu: MenuItem[] = [
 // ];
 
 const Sidebar = () => {
-     const [activeMenuItem, setActiveMenuItem] = useState('create-form');
+     const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
      const route = useRouter();
 
      useEffect(() => {
@@ -49,10 +50,10 @@ const Sidebar = () => {
           return () => document.removeEventListener('mousemove', handleMouseMove);
      }, []);
 
-     const handleMenuClick = (menuId: string, link: string) => (e: React.MouseEvent) => {
-          e.preventDefault();
+     useEffect(() => {}, []);
+
+     const handleMenuClick = (menuId: string) => (e: React.MouseEvent) => {
           setActiveMenuItem(menuId);
-          route.push(link);
      };
 
      const handleLogout = () => {
@@ -62,8 +63,9 @@ const Sidebar = () => {
      };
 
      const MenuItem = ({ id, icon: Icon, text, link = '' }: MenuItem) => (
-          <div
-               onClick={handleMenuClick(id, link)}
+          <Link
+               href={link}
+               onClick={handleMenuClick(id)}
                className={`flex items-center px-5 cursor-pointer py-3 text-opacity-70 text-white transition-all duration-300 relative overflow-hidden hover:bg-gradient-to-r hover:from-neon-blue/10 hover:to-transparent hover:text-neon-blue
                     ${
                          activeMenuItem === id
@@ -73,7 +75,7 @@ const Sidebar = () => {
           >
                <Icon className="w-5 h-5 mr-3 transition-transform duration-300 hover:scale-120 hover:text-neon-blue" />
                {text}
-          </div>
+          </Link>
      );
 
      return (
