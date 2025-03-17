@@ -20,8 +20,7 @@ interface FormDataItem {
      topicId: string;
      countryId: string;
      startDate: string;
-     email: string;
-     context: string;
+     email?: string;
 }
 
 const CreateFormPage = () => {
@@ -36,12 +35,12 @@ const CreateFormPage = () => {
      const [formData, setFormData] = useState<FormDataItem[]>([]);
      const [videoCount, setVideoCount] = useState(1);
      const [topicId, setTopicId] = useState('');
-     const [context, setContext] = useState('');
      const [startDate, setStartDate] = useState(() => {
           const now = new Date();
           now.setDate(now.getDate() + 1);
           return now.toISOString().slice(0, 16);
      });
+     const [availableLanguages, setAvailableLanguages] = useState<string[]>([]);
      const [errors, setErrors] = React.useState<any>({});
 
      useEffect(() => {
@@ -64,12 +63,37 @@ const CreateFormPage = () => {
           }
      }, [status]);
 
+     useEffect(() => {
+          if (topicId && topics.length > 0) {
+               const selectedTopic = topics.find((topic: any) => topic._id === topicId);
+               if (selectedTopic && selectedTopic.language) {
+                    const languageIds = selectedTopic.language.map((lang: any) => lang._id);
+                    setAvailableLanguages(languageIds);
+
+                    const newFormData = languageIds.map((countryId: any) => ({
+                         videoCount,
+                         topicId,
+                         countryId,
+                         startDate,
+                    }));
+
+                    setFormData(newFormData);
+               } else {
+                    setAvailableLanguages([]);
+                    setFormData([]);
+               }
+          } else {
+               setAvailableLanguages([]);
+               setFormData([]);
+          }
+     }, [topicId, topics, videoCount, startDate]);
+
      const handleCountryChange = (e: any, countryId: string) => {
           const checked = e.target.checked;
 
           setFormData((prev) => {
                if (checked) {
-                    return [...prev, { videoCount, topicId, countryId, context, startDate, email: '' }];
+                    return [...prev, { videoCount, topicId, countryId, startDate }];
                } else {
                     return prev.filter((item) => item.countryId !== countryId);
                }
@@ -78,14 +102,22 @@ const CreateFormPage = () => {
 
      const handleEmailChange = (e: any, countryId: string) => {
           const email = e.target.value;
-          setFormData((prev) => prev.map((item) => (item.countryId === countryId ? { ...item, email } : item)));
+          setFormData((prev) =>
+               prev.map((item) =>
+                    item.countryId === countryId
+                         ? email.trim() !== ''
+                              ? { ...item, email }
+                              : _.omit(item, 'email')
+                         : item,
+               ),
+          );
      };
 
      const validateForm = () => {
           const newErrors: any = {};
 
           if (_.isEmpty(topicId)) newErrors.topicId = 'Phải chọn chủ đề';
-          if (_.isEmpty(formData)) newErrors.formData = 'Phải chọn quốc gia và nhập email';
+          if (_.isEmpty(formData)) newErrors.formData = 'Phải chọn ít nhất một quốc gia';
 
           setErrors(newErrors);
           return Object.keys(newErrors).length === 0;
@@ -99,10 +131,15 @@ const CreateFormPage = () => {
                setTimeout(() => {
                     dispatch(AppAction.hiddenLoading());
                     if (data) {
-                         router.push(`/create-form`);
+                         router.push('/create-form');
                     }
                }, 2000);
           }
+     };
+
+     // Kiểm tra xem một quốc gia có khả dụng không
+     const isCountryAvailable = (countryId: string) => {
+          return availableLanguages.includes(countryId);
      };
 
      return (
@@ -141,25 +178,6 @@ const CreateFormPage = () => {
                     </div>
 
                     <div>
-                         <label className="block font-medium">Bối cảnh *</label>
-                         <select
-                              value={context}
-                              onChange={(e) => setContext(e.target.value)}
-                              className="w-full border p-2 rounded-md focus:ring focus:ring-blue-300 bg-[rgba(255,255,255,0.05)]"
-                         >
-                              <option className="text-black" value="">
-                                   Chọn bối cảnh
-                              </option>
-                              {countries &&
-                                   countries.map((item: any) => (
-                                        <option className="text-black" key={item._id} value={item._id}>
-                                             {item.name}
-                                        </option>
-                                   ))}
-                         </select>
-                    </div>
-
-                    <div>
                          <label className="block font-medium">Ngôn ngữ và Email *</label>
                          {countries &&
                               countries.map(({ _id, name }: any) => (
@@ -169,10 +187,17 @@ const CreateFormPage = () => {
                                                   type="checkbox"
                                                   id={_id}
                                                   value={_id}
+                                                  disabled={!isCountryAvailable(_id)}
                                                   checked={formData.some((item) => item.countryId === _id)}
                                                   onChange={(e) => handleCountryChange(e, _id)}
+                                                  className={!isCountryAvailable(_id) ? 'opacity-50' : ''}
                                              />
-                                             <label htmlFor={_id}>{name}</label>
+                                             <label
+                                                  htmlFor={_id}
+                                                  className={!isCountryAvailable(_id) ? 'text-gray-400' : ''}
+                                             >
+                                                  {name}
+                                             </label>
                                         </div>
                                         {formData.some((item) => item.countryId === _id) && (
                                              <input
