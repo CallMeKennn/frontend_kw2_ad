@@ -35,11 +35,6 @@ const CreateFormPage = () => {
      const [formData, setFormData] = useState<FormDataItem[]>([]);
      const [videoCount, setVideoCount] = useState(1);
      const [topicId, setTopicId] = useState('');
-     // const [startDate, setStartDate] = useState(() => {
-     //      const now = new Date();
-     //      now.setDate(now.getDate() + 1);
-     //      return now.toISOString().slice(0, 16);
-     // });
      const [startDate, setStartDate] = useState('');
      const [availableLanguages, setAvailableLanguages] = useState<string[]>([]);
      const [errors, setErrors] = React.useState<any>({});
@@ -67,8 +62,16 @@ const CreateFormPage = () => {
      useEffect(() => {
           if (topicId && topics.length > 0) {
                const selectedTopic = topics.find((topic: any) => topic._id === topicId);
+
+               //Gán video count
+               if (selectedTopic && selectedTopic.countVideo) {
+                    setVideoCount(selectedTopic.countVideo);
+               }
+
+               //Gán Language và Email
                if (selectedTopic && selectedTopic.language) {
                     const languageIds = selectedTopic.language.map((lang: any) => lang._id);
+
                     setAvailableLanguages(languageIds);
 
                     const newFormData = languageIds.map((countryId: any) => {
@@ -89,10 +92,12 @@ const CreateFormPage = () => {
                } else {
                     setAvailableLanguages([]);
                     setFormData([]);
+                    setVideoCount(1);
                }
           } else {
                setAvailableLanguages([]);
                setFormData([]);
+               setVideoCount(1);
           }
      }, [topicId, topics, videoCount, startDate]);
 
@@ -165,17 +170,6 @@ const CreateFormPage = () => {
                <h2 className="text-2xl font-semibold text-center ">Biểu mẫu nhập liệu</h2>
                <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                         <label className="block font-medium">Số lượng video *</label>
-                         <input
-                              type="number"
-                              min="1"
-                              value={videoCount}
-                              onChange={(e) => setVideoCount(Number(e.target.value))}
-                              className="w-full border p-2 rounded-md focus:ring focus:ring-blue-300 bg-[rgba(255,255,255,0.05)]"
-                         />
-                    </div>
-
-                    <div>
                          <label className="block font-medium">Chủ đề *</label>
                          <select
                               value={topicId}
@@ -193,6 +187,17 @@ const CreateFormPage = () => {
                                    ))}
                          </select>
                          {errors.topicId && <p className="text-red-500 text-sm">{errors.topicId}</p>}
+                    </div>
+
+                    <div>
+                         <label className="block font-medium">Số lượng video *</label>
+                         <input
+                              type="number"
+                              min="1"
+                              value={videoCount}
+                              onChange={(e) => setVideoCount(Number(e.target.value))}
+                              className="w-full border p-2 rounded-md focus:ring focus:ring-blue-300 bg-[rgba(255,255,255,0.05)]"
+                         />
                     </div>
 
                     <div>
