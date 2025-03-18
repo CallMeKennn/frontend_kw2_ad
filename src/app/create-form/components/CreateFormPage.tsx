@@ -99,7 +99,7 @@ const CreateFormPage = () => {
                setFormData([]);
                setVideoCount(1);
           }
-     }, [topicId, topics, videoCount, startDate]);
+     }, [topicId, topics, startDate]);
 
      const handleCountryChange = (e: any, countryId: string) => {
           const checked = e.target.checked;

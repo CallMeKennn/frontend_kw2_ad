@@ -154,10 +154,10 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
                          <div className="flex items-center gap-2">
                               <ClockCircleOutlined className="text-yellow-500" /> Đã gửi nội dung video
                          </div>
-                         {statusFilter === 'sent_create_video' && <CheckOutlined className="text-blue-500" />}
+                         {statusFilter === 'sent_create_video_success' && <CheckOutlined className="text-blue-500" />}
                     </div>
                ),
-               key: 'sent_create_video',
+               key: 'sent_create_video_success',
           },
           {
                label: (

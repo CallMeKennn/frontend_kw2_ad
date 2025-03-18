@@ -84,6 +84,7 @@ const VideoSlice = createSlice({
                     state.error = null;
                })
                .addCase(getAllEmailManageByUserId.fulfilled, (state: VideoState, { payload }: PayloadAction<any>) => {
+                    console.log({ payload });
                     const { videoRequests, total, page, limit, totalPages } = payload.data;
                     state.status = 'succeeded';
                     state.emails = videoRequests;
