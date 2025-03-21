@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BiBrain, BiMovie, BiPieChartAlt2, BiPencil, BiHeading, BiAlignLeft, BiGift, BiStar } from 'react-icons/bi';
 import './style.css';
 import { useRouter } from 'next/navigation';
@@ -14,7 +14,7 @@ interface MenuItem {
 const MainMenu: MenuItem[] = [
      { id: 'dashboard', icon: BiMovie, text: 'Trang chủ', link: '/dashboard' },
      { id: 'create-form', icon: BiGift, text: 'Tạo theo chủ đề', link: '/create-form' },
-     // { id: 'manage-account', icon: BiPencil, text: 'Quản lý account', link: '/manage-account' },
+     { id: 'channels-dashboard', icon: BiPencil, text: 'Channels Dashboard', link: '/channels-dashboard' },
 ];
 
 // const FreeServices: MenuItem[] = [
@@ -29,28 +29,6 @@ const MainMenu: MenuItem[] = [
 const Sidebar = () => {
      const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
      const route = useRouter();
-
-     useEffect(() => {
-          const handleMouseMove = (e: MouseEvent) => {
-               const hologramElements = document.querySelectorAll('.hologram');
-               const { clientX, clientY } = e;
-               const centerX = window.innerWidth / 2;
-               const centerY = window.innerHeight / 2;
-
-               hologramElements.forEach((element) => {
-                    const moveX = (clientX - centerX) / 50;
-                    const moveY = (clientY - centerY) / 50;
-                    if (element instanceof HTMLElement) {
-                         element.style.transform = `translate(${moveX}px, ${moveY}px) rotateX(${moveY}deg) rotateY(${moveX}deg)`;
-                    }
-               });
-          };
-
-          document.addEventListener('mousemove', handleMouseMove);
-          return () => document.removeEventListener('mousemove', handleMouseMove);
-     }, []);
-
-     useEffect(() => {}, []);
 
      const handleMenuClick = (menuId: string) => (e: React.MouseEvent) => {
           setActiveMenuItem(menuId);
@@ -79,7 +57,7 @@ const Sidebar = () => {
      );
 
      return (
-          <div className="neon-box fixed left-0 top-0 w-70 h-screen bg-cyber-light z-10">
+          <div className="fixed left-0 top-0 w-70 h-screen bg-cyber-light z-10">
                {/* Logo */}
                <div className="neon-border p-5 cursor-pointer" onClick={() => route.push('/')}>
                     <div className="flex items-center space-x-3 cursor-pointer">
@@ -110,6 +88,7 @@ const Sidebar = () => {
                     ))}
                </div> */}
                {/* Auth Buttons */}
+
                <div className="absolute bottom-0 left-0 right-0 p-5 space-y-3">
                     <button
                          onClick={handleLogout}

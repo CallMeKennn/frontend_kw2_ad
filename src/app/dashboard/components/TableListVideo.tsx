@@ -44,7 +44,6 @@ import { VideoSelector } from '@/redux/videos/selector';
 import { TopicSelector } from '@/redux/topics/selector';
 import { ProjectSelector } from '@/redux/countries/selector';
 
-import '@ant-design/v5-patch-for-react-19';
 import { AppAction } from '@/redux/app/AppSlice';
 
 interface Props {
@@ -216,17 +215,28 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
      const returnStatusVideoLocal = (status: string) => {
           const statusMap: Record<string, number> = {
                created: 1,
+               wait_for_upload_video: 5,
+
+               //Khi Success
                sent_create_video_success: 2,
                receive_video_link_success: 3,
                send_upload_video_success: 4,
-               wait_for_upload_video: 5,
                receive_upload_video_success: 6,
+
+               //Khi Fail
+               sent_create_video_fail: 2,
+               receive_video_link_fail: 3,
+               send_upload_video_fail: 4,
+               receive_upload_video_fail: 6,
           };
 
-          const statusIndex = statusMap[status] ?? -1;
-          return statusIndex !== -1
-               ? { statusIndex: statusIndex - 1, precent: Number(((100 / 6) * statusIndex).toFixed(2)) }
-               : null;
+          const statusIndex = statusMap[status];
+
+          return {
+               statusIndex: statusIndex - 1,
+               precent: Number(((100 / 6) * (status.includes('fail') ? statusIndex - 1 : statusIndex)).toFixed(2)),
+               isSuccess: status.includes('fail'),
+          };
      };
 
      const handleOpenScriptModal = (content: string) => {
@@ -420,8 +430,13 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
                                              <div>
                                                   <Steps
                                                        className="text-white"
-                                                       progressDot
-                                                       // direction="vertical"
+                                                       // progressDot
+                                                       status={
+                                                            returnStatusVideoLocal(publishDate)?.isSuccess
+                                                                 ? 'error'
+                                                                 : 'process'
+                                                       }
+                                                       labelPlacement="vertical"
                                                        current={returnStatusVideoLocal(publishDate)?.statusIndex}
                                                        items={[
                                                             {
@@ -448,8 +463,15 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
                                         }
                                    >
                                         <Progress
+                                             status={
+                                                  returnStatusVideoLocal(publishDate)?.isSuccess
+                                                       ? 'exception'
+                                                       : 'active'
+                                             }
                                              percent={returnStatusVideoLocal(publishDate)?.precent}
-                                             strokeColor={twoColors}
+                                             strokeColor={
+                                                  returnStatusVideoLocal(publishDate)?.isSuccess ? '' : twoColors
+                                             }
                                         />
                                    </Popover>
                               </ConfigProvider>

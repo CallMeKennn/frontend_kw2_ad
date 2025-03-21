@@ -4,6 +4,7 @@ import Provider from '@/providers/Provider';
 import FullPageLoading from '@/components/Loading/Loading';
 import { ToastContainer } from 'react-toastify';
 import LayoutWrapper from '@/layouts/LayoutWrapper';
+import '@ant-design/v5-patch-for-react-19';
 
 export const metadata: Metadata = {
      title: 'Employee KWAI',

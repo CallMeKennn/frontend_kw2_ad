@@ -20,7 +20,6 @@ interface FormDataItem {
      topicId: string;
      countryId: string;
      startDate?: string;
-     email?: string;
 }
 
 const CreateFormPage = () => {
@@ -63,43 +62,42 @@ const CreateFormPage = () => {
           if (topicId && topics.length > 0) {
                const selectedTopic = topics.find((topic: any) => topic._id === topicId);
 
-               //Gán video count
                if (selectedTopic && selectedTopic.countVideo) {
                     setVideoCount(selectedTopic.countVideo);
                }
 
-               //Gán Language và Email
                if (selectedTopic && selectedTopic.language) {
                     const languageIds = selectedTopic.language.map((lang: any) => lang._id);
-
                     setAvailableLanguages(languageIds);
-
-                    const newFormData = languageIds.map((countryId: any) => {
-                         const item: FormDataItem = {
-                              videoCount,
-                              topicId,
-                              countryId,
-                         };
-
-                         if (startDate.trim() !== '') {
-                              item.startDate = startDate;
-                         }
-
-                         return item;
-                    });
-
-                    setFormData(newFormData);
                } else {
                     setAvailableLanguages([]);
                     setFormData([]);
-                    setVideoCount(1);
                }
           } else {
                setAvailableLanguages([]);
                setFormData([]);
-               setVideoCount(1);
           }
-     }, [topicId, topics, startDate]);
+     }, [topicId, topics]);
+
+     useEffect(() => {
+          if (topicId && availableLanguages.length > 0) {
+               const newFormData = availableLanguages.map((countryId: any) => {
+                    const item: FormDataItem = {
+                         videoCount,
+                         topicId,
+                         countryId,
+                    };
+
+                    if (startDate.trim() !== '') {
+                         item.startDate = startDate;
+                    }
+
+                    return item;
+               });
+
+               setFormData(newFormData);
+          }
+     }, [availableLanguages, startDate, videoCount]);
 
      const handleCountryChange = (e: any, countryId: string) => {
           const checked = e.target.checked;
@@ -121,19 +119,6 @@ const CreateFormPage = () => {
                     return prev.filter((item) => item.countryId !== countryId);
                }
           });
-     };
-
-     const handleEmailChange = (e: any, countryId: string) => {
-          const email = e.target.value;
-          setFormData((prev) =>
-               prev.map((item) =>
-                    item.countryId === countryId
-                         ? email.trim() !== ''
-                              ? { ...item, email }
-                              : _.omit(item, 'email')
-                         : item,
-               ),
-          );
      };
 
      const validateForm = () => {
@@ -160,7 +145,6 @@ const CreateFormPage = () => {
           }
      };
 
-     // Kiểm tra xem một quốc gia có khả dụng không
      const isCountryAvailable = (countryId: string) => {
           return availableLanguages.includes(countryId);
      };
@@ -201,7 +185,7 @@ const CreateFormPage = () => {
                     </div>
 
                     <div>
-                         <label className="block font-medium">Ngôn ngữ và Email *</label>
+                         <label className="block font-medium">Ngôn ngữ *</label>
                          {countries &&
                               countries.map(({ _id, name }: any) => (
                                    <div key={_id} className="mb-2">
@@ -222,15 +206,6 @@ const CreateFormPage = () => {
                                                   {name}
                                              </label>
                                         </div>
-                                        {formData.some((item) => item.countryId === _id) && (
-                                             <input
-                                                  type="email"
-                                                  value={formData.find((item) => item.countryId === _id)?.email || ''}
-                                                  onChange={(e) => handleEmailChange(e, _id)}
-                                                  placeholder={`Email cho ${name}`}
-                                                  className="w-full mt-2 border p-2 rounded-md focus:ring focus:ring-blue-300 text-black"
-                                             />
-                                        )}
                                    </div>
                               ))}
                          {errors.formData && <p className="text-red-500 text-sm">{errors.formData}</p>}
