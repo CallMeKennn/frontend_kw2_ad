@@ -563,12 +563,12 @@ const ChannelsDashboardPage = () => {
                          dataSource={fakeData}
                          className="bg-glass-bg backdrop-blur-xl border border-glass-border rounded-2xl"
                          scroll={{ x: 'max-content' }}
-                         summary={(pageData) => {
+                         summary={() => {
                               return (
                                    <>
                                         <Table.Summary.Row>
                                              <Table.Summary.Cell key="0" index={0}>
-                                                  Tổng ({pageData.length} kênh)
+                                                  Tổng ({fakeData.length} kênh)
                                              </Table.Summary.Cell>
 
                                              {/* Các ô không hiển thị */}
@@ -579,7 +579,7 @@ const ChannelsDashboardPage = () => {
                                              <Table.Summary.Cell key="5" index={5} />
                                              {/* Người đăng ký */}
                                              <Table.Summary.Cell key="6" index={6} align="right">
-                                                  {pageData
+                                                  {fakeData
                                                        .reduce(
                                                             (total: any, currentValue: any) =>
                                                                  total + currentValue.revenue.total,
@@ -592,15 +592,15 @@ const ChannelsDashboardPage = () => {
                                                   index={7}
                                                   align="center"
                                                   className={`${
-                                                       handleTotalAndColor(pageData, 'subscribers').color
+                                                       handleTotalAndColor(fakeData, 'subscribers').color
                                                   } flex items-center justify-center`}
                                              >
-                                                  {handleTotalAndColor(pageData, 'subscribers').total}
-                                                  {handleTotalAndColor(pageData, 'subscribers').icon}
+                                                  {handleTotalAndColor(fakeData, 'subscribers').total}
+                                                  {handleTotalAndColor(fakeData, 'subscribers').icon}
                                              </Table.Summary.Cell>
                                              {/*Lượt xem */}
                                              <Table.Summary.Cell key="8" index={8}>
-                                                  {pageData
+                                                  {fakeData
                                                        .reduce(
                                                             (total: any, currentValue: any) =>
                                                                  total + currentValue.views.total,
@@ -613,42 +613,42 @@ const ChannelsDashboardPage = () => {
                                                   index={9}
                                                   align="center"
                                                   className={`${
-                                                       handleTotalAndColor(pageData, 'views').color
+                                                       handleTotalAndColor(fakeData, 'views').color
                                                   } flex items-center justify-center`}
                                              >
-                                                  {handleTotalAndColor(pageData, 'views').total}
-                                                  {handleTotalAndColor(pageData, 'views').icon}
+                                                  {handleTotalAndColor(fakeData, 'views').total}
+                                                  {handleTotalAndColor(fakeData, 'views').icon}
                                              </Table.Summary.Cell>
                                              {/* Đủ điều kiện kiếm tiền */}
                                              <Table.Summary.Cell key="10" index={10} align="center">
                                                   {
-                                                       pageData.filter(
+                                                       fakeData.filter(
                                                             (item: any, index: number) => !!item.isMonetizationEligible,
                                                        ).length
                                                   }
-                                                  /{pageData.length}
+                                                  /{fakeData.length}
                                              </Table.Summary.Cell>
                                              {/* Đã đăng ký Google Adsense	 */}
                                              <Table.Summary.Cell key="11" index={11} align="center">
                                                   {
-                                                       pageData.filter(
+                                                       fakeData.filter(
                                                             (item: any, index: number) => !!item.isAdsenseRegistered,
                                                        ).length
                                                   }
-                                                  /{pageData.length}
+                                                  /{fakeData.length}
                                              </Table.Summary.Cell>
                                              {/* Trạng thái kiếm tiền */}
                                              <Table.Summary.Cell key="12" index={12} align="center">
                                                   {
-                                                       pageData.filter(
+                                                       fakeData.filter(
                                                             (item: any, index: number) => !!item.isMonetizing,
                                                        ).length
                                                   }
-                                                  /{pageData.length}
+                                                  /{fakeData.length}
                                              </Table.Summary.Cell>
                                              {/* Doanh Thu */}
                                              <Table.Summary.Cell key="13" index={13}>
-                                                  {pageData
+                                                  {fakeData
                                                        .reduce(
                                                             (total: any, currentValue: any) =>
                                                                  total + currentValue.revenue.total,
@@ -661,11 +661,11 @@ const ChannelsDashboardPage = () => {
                                                   key="14"
                                                   index={14}
                                                   className={`${
-                                                       handleTotalAndColor(pageData, 'revenue').color
+                                                       handleTotalAndColor(fakeData, 'revenue').color
                                                   } flex items-center justify-center`}
                                              >
-                                                  {handleTotalAndColor(pageData, 'revenue').total}
-                                                  {handleTotalAndColor(pageData, 'revenue').icon}
+                                                  {handleTotalAndColor(fakeData, 'revenue').total}
+                                                  {handleTotalAndColor(fakeData, 'revenue').icon}
                                              </Table.Summary.Cell>
 
                                              <Table.Summary.Cell key="15" index={15} />

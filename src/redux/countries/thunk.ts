@@ -6,7 +6,6 @@ import { CountryRequest } from '../countries/request';
 export const getAllCountry = createAsyncThunk('country/get-all-country', async (request: any, { rejectWithValue }) => {
      try {
           const response = await CountryRequest.getAllCountry();
-          toast.success('Get all country successfully');
           return response.data;
      } catch (error: any) {
           toast.error(error.response.data.message);

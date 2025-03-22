@@ -6,7 +6,6 @@ import { TopicRequest } from './request';
 export const getAllTopic = createAsyncThunk('topic/get-all-topic', async (request: any, { rejectWithValue }) => {
      try {
           const response = await TopicRequest.getAllTopic();
-          toast.success('Get all topic successfully');
           return response.data;
      } catch (error: any) {
           toast.error(error.response.data.message);

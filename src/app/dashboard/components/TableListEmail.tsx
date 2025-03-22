@@ -203,7 +203,7 @@ const TableListEmail = ({ onSearchText }: Props) => {
      };
 
      return (
-          <>
+          <div className="w-full">
                <div className="text-4xl mb-5">Danh sách Emails</div>
                <div className="bg-glass-bg bg-transparent backdrop-blur-xl border border-glass-border rounded-2xl p-6 mb-8">
                     <div className="flex gap-4 items-center">
@@ -332,6 +332,7 @@ const TableListEmail = ({ onSearchText }: Props) => {
                     >
                          <Table
                               columns={columns}
+                              scroll={{ x: 1425 }}
                               dataSource={emails.map((item: any, index: number) => ({
                                    key: (page - 1) * 10 + index + 1,
                                    ...item,
@@ -351,7 +352,7 @@ const TableListEmail = ({ onSearchText }: Props) => {
                          />
                     </ConfigProvider>
                )}
-          </>
+          </div>
      );
 };
 

@@ -55,6 +55,7 @@ interface Props {
 const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
      const dispatch = useAppDispatch();
      const [userID, setUserID] = useState<string>('');
+     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1426);
 
      useEffect(() => {
           if (triggerSearch !== undefined) {
@@ -62,20 +63,14 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
           }
      }, [triggerSearch]);
 
-     // useEffect(() => {
-     //      // Check if window is defined (meaning we're on client side)
-     //      if (typeof window !== 'undefined') {
-     //           try {
-     //                const userInfo = localStorage.getItem('USER_INFO');
-     //                if (userInfo) {
-     //                     const parsedUserInfo = JSON.parse(userInfo);
-     //                     setUserID(parsedUserInfo._id);
-     //                }
-     //           } catch (error) {
-     //                console.error('Error parsing user info:', error);
-     //           }
-     //      }
-     // }, []);
+     useEffect(() => {
+          const handleResize = () => {
+               setIsSmallScreen(window.innerWidth < 1426);
+          };
+
+          window.addEventListener('resize', handleResize);
+          return () => window.removeEventListener('resize', handleResize);
+     }, []);
 
      useEffect(() => {
           try {
@@ -641,6 +636,7 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
                </div>
 
                {/* Table */}
+
                {!_.isEmpty(videos) && (
                     <ConfigProvider
                          theme={{
@@ -660,6 +656,7 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
                     >
                          <Table
                               columns={columns}
+                              scroll={isSmallScreen ? { x: 1425 } : undefined}
                               dataSource={videos.map((item: any, index: number) => ({
                                    key: (page - 1) * 10 + index + 1,
                                    ...item,

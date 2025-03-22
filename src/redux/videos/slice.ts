@@ -72,7 +72,6 @@ const VideoSlice = createSlice({
                     state.page = page;
                     state.totalPages = totalPages;
                     state.total = total;
-                    toast.success('Lấy list video thành công');
                })
                .addCase(getAllVideoByUserId.rejected, (state: VideoState, { payload }: PayloadAction<any>) => {
                     state.status = 'failed';
@@ -92,7 +91,6 @@ const VideoSlice = createSlice({
                     state.pageEmail = page;
                     state.totalPagesEmail = totalPages;
                     state.totalEmail = total;
-                    toast.success('Lấy list email thành công');
                })
                .addCase(getAllEmailManageByUserId.rejected, (state: VideoState, { payload }: PayloadAction<any>) => {
                     state.status = 'failed';
