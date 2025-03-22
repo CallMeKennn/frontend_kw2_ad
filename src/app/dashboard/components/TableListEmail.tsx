@@ -332,7 +332,6 @@ const TableListEmail = ({ onSearchText }: Props) => {
                     >
                          <Table
                               columns={columns}
-                              scroll={{ x: 1425 }}
                               dataSource={emails.map((item: any, index: number) => ({
                                    key: (page - 1) * 10 + index + 1,
                                    ...item,

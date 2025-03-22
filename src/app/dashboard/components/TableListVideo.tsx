@@ -55,7 +55,9 @@ interface Props {
 const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
      const dispatch = useAppDispatch();
      const [userID, setUserID] = useState<string>('');
-     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1426);
+     const [isSmallScreen, setIsSmallScreen] = useState<boolean>(() =>
+          typeof window !== 'undefined' ? window.innerWidth < 1426 : false,
+     );
 
      useEffect(() => {
           if (triggerSearch !== undefined) {
