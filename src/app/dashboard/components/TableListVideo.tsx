@@ -59,12 +59,14 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
           typeof window !== 'undefined' ? window.innerWidth < 1426 : false,
      );
 
+     //Khi bấm vào 1 Email
      useEffect(() => {
           if (triggerSearch !== undefined) {
                handleSearchWithDebounce();
           }
      }, [triggerSearch]);
 
+     //Responsive
      useEffect(() => {
           const handleResize = () => {
                setIsSmallScreen(window.innerWidth < 1426);
@@ -74,6 +76,7 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
           return () => window.removeEventListener('resize', handleResize);
      }, []);
 
+     //CheckID
      useEffect(() => {
           try {
                const userInfo = localStorage.getItem('USER_INFO');
@@ -110,16 +113,25 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
      const [searchDate, setSearchDate] = useState<any>('');
 
      //Đây là API để gọi để check liên tục
-     // useEffect(() => {
+     useEffect(() => {
+          dispatch(
+               getAllVideoByUserId({
+                    page,
+                    limit,
+               }),
+          );
 
-     //      dispatch(getAllVideoByUserId({ userId: userID, filter: { page, limit } }));
+          const interval = setInterval(() => {
+               dispatch(
+                    getAllVideoByUserId({
+                         page,
+                         limit,
+                    }),
+               );
+          }, 30 * 60 * 1000);
 
-     //      const interval = setInterval(() => {
-     //           dispatch(getAllVideoByUserId({ userId: userID, filter: { page, limit } }));
-     //      }, 5000);
-
-     //      return () => clearInterval(interval);
-     // }, [dispatch, userID, page, limit]);
+          return () => clearInterval(interval);
+     }, [dispatch, userID]);
 
      const listStatusFilter: any = [
           {
@@ -203,11 +215,11 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
 
      useEffect(() => {
           if (userID) {
-               dispatch(getAllVideoByUserId({ page, limit }));
+               // dispatch(getAllVideoByUserId({ page, limit }));
                dispatch(getAllCountry({}));
                dispatch(getAllTopic({}));
           }
-     }, [dispatch, userID]);
+     }, [userID]);
 
      const returnStatusVideoLocal = (status: string) => {
           const statusMap: Record<string, number> = {
