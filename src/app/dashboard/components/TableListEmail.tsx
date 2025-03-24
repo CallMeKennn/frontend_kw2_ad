@@ -47,20 +47,25 @@ const TableListEmail = ({ onSearchText }: Props) => {
 
      const [userID, setUserID] = useState<string>('');
 
-     // useEffect(() => {
-     //      // Check if window is defined (meaning we're on client side)
-     //      if (typeof window !== 'undefined') {
-     //           try {
-     //                const userInfo = localStorage.getItem('USER_INFO');
-     //                if (userInfo) {
-     //                     const parsedUserInfo = JSON.parse(userInfo);
-     //                     setUserID(parsedUserInfo._id);
-     //                }
-     //           } catch (error) {
-     //                console.error('Error parsing user info:', error);
-     //           }
-     //      }
-     // }, []);
+     useEffect(() => {
+          dispatch(
+               getAllEmailManageByUserId({
+                    page,
+                    limit,
+               }),
+          );
+
+          const interval = setInterval(() => {
+               dispatch(
+                    getAllEmailManageByUserId({
+                         page,
+                         limit,
+                    }),
+               );
+          }, 30 * 60 * 1000);
+
+          return () => clearInterval(interval);
+     }, [dispatch, userID]);
 
      useEffect(() => {
           try {
@@ -84,7 +89,6 @@ const TableListEmail = ({ onSearchText }: Props) => {
 
      useEffect(() => {
           if (userID) {
-               dispatch(getAllEmailManageByUserId({ page, limit }));
                dispatch(getAllCountry({}));
                dispatch(getAllTopic({}));
           }
@@ -163,6 +167,12 @@ const TableListEmail = ({ onSearchText }: Props) => {
                     title: 'Số Kịch Bản Đã Hoàn Thành',
                     render: (_: any, record: any) => (
                          <div className="truncate">{`${record.scriptVideoCount}/${record.videoCount}`}</div>
+                    ),
+               },
+               {
+                    title: 'Số Video Đã Hoàn Thành',
+                    render: (_: any, record: any) => (
+                         <div className="truncate">{`${record?.videoDoneCount}/${record.videoCount}`}</div>
                     ),
                },
           ] as ColumnsType<any>;
