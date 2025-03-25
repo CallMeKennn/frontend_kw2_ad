@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BiBrain, BiMovie, BiPieChartAlt2, BiPencil, BiHeading, BiAlignLeft, BiGift, BiStar } from 'react-icons/bi';
+import { BiBrain, BiMovie, BiPieChartAlt2, BiPencil, BiHeading, BiAlignLeft, BiGift, BiStar, BiSave } from 'react-icons/bi';
 import './style.css';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -15,6 +15,7 @@ const MainMenu: MenuItem[] = [
      { id: 'dashboard', icon: BiMovie, text: 'Trang chủ', link: '/dashboard' },
      { id: 'create-form', icon: BiGift, text: 'Tạo theo chủ đề', link: '/create-form' },
      { id: 'channels-dashboard', icon: BiPencil, text: 'Channels Dashboard', link: '/channels-dashboard' },
+     { id: 'video-storage', icon: BiSave, text: 'Video Storage', link: '/video-storage' },
 ];
 
 // const FreeServices: MenuItem[] = [
