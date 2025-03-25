@@ -1,7 +1,7 @@
 // slice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { VideoState } from './videos.interface';
-import { createVideo, getAllVideoByUserId, getAllEmailManageByUserId } from './thunk';
+import { createVideo, getAllVideoByUserId, getAllEmailManageByUserId, getVideoStorageByUserId } from './thunk';
 import { toast } from 'react-toastify';
 
 const initialState: VideoState = {
@@ -12,6 +12,7 @@ const initialState: VideoState = {
      totalPages: null,
      videos: [],
      video: null,
+     videoStorages:[],
 
      //Pagination of email
      totalEmail: null,
@@ -20,6 +21,12 @@ const initialState: VideoState = {
      totalPagesEmail: null,
      email: null,
      emails: null,
+
+     //Pagination of videoStorages
+     totalVideoStorages: null,
+     pageVideoStorages: 1,
+     limitVideoStorages: 10,
+     totalPagesVideoStorages: null,
 
      //error and status
      error: null,
@@ -95,7 +102,26 @@ const VideoSlice = createSlice({
                .addCase(getAllEmailManageByUserId.rejected, (state: VideoState, { payload }: PayloadAction<any>) => {
                     state.status = 'failed';
                     state.error = payload as string;
-               });
+               })
+
+               //Get video storage
+               .addCase(getVideoStorageByUserId.pending, (state: VideoState) => {
+                    state.status = 'loading';
+                    state.error = null;
+               })
+               .addCase(getVideoStorageByUserId.fulfilled, (state: VideoState, { payload }: PayloadAction<any>) => {
+                    const { videoStorages, total, page, limit, totalPages} = payload
+                    state.status = 'succeeded';
+                    state.videoStorages = videoStorages;
+                    state.limitVideoStorages = limit;
+                    state.pageVideoStorages = page;
+                    state.totalPagesVideoStorages = totalPages;
+                    state.totalVideoStorages = total;
+               })
+               .addCase(getVideoStorageByUserId.rejected, (state: VideoState, { payload }: PayloadAction<any>) => {
+                    state.status = 'failed';
+                    state.error = payload as string;
+               })
      },
 });
 

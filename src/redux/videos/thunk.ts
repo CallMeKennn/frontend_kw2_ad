@@ -42,3 +42,16 @@ export const getAllEmailManageByUserId = createAsyncThunk(
           }
      },
 );
+
+export const getVideoStorageByUserId = createAsyncThunk(
+     'video/get-video-storage-by-UserId',
+     async (request: any, { rejectWithValue }) => {
+          try {
+               const response = await VideoRequest.getVideoStorageByUserId(request);
+               console.log("🔍 ~ createAsyncThunk('video/get-video-storage-by-UserId') callback ~ frontend_kw2_ad/src/redux/videos/thunk.ts:51 ~ response.data:", response.data)
+               return response.data;
+          } catch (error: any) {
+               toast.error(error.response.data.message);
+               return rejectWithValue(error.response.data.message);
+          }
+     })

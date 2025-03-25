@@ -6,6 +6,7 @@ export interface VideoState {
      totalPages: any;
      video: any;
      videos: any;
+     videoStorages: any;
 
      //Pagination of email
      totalEmail: any;
@@ -14,6 +15,12 @@ export interface VideoState {
      totalPagesEmail: any;
      email: any;
      emails: any;
+
+     //Pagination of videoStorages
+     totalVideoStorages: any;
+     pageVideoStorages: any;
+     limitVideoStorages: any;
+     totalPagesVideoStorages: any;
 
      status: 'idle' | 'loading' | 'succeeded' | 'failed';
      error: string | null;

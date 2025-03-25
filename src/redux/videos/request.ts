@@ -15,4 +15,8 @@ export const VideoRequest = {
      getAllEmailManageByUserId(filter: any) {
           return MSTFetch.get(`/video-requests/user/me?${qs.stringify(filter)}`);
      },
+
+     getVideoStorageByUserId(filter: any) {
+          return MSTFetch.get(`/video-requests/storage/me?${qs.stringify(filter)}`);
+     }
 };
