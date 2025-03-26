@@ -1,48 +1,46 @@
 //React
-import React from 'react';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 //Antd
 import {
-     EyeOutlined,
-     EditOutlined,
-     DeleteOutlined,
-     SearchOutlined,
-     CheckOutlined,
-     CheckCircleOutlined,
-     ClockCircleOutlined,
-     CloseCircleOutlined,
-     FilterOutlined,
-     CalendarOutlined,
-     SortDescendingOutlined,
+  CalendarOutlined,
+  CheckCircleOutlined,
+  CheckOutlined,
+  ClockCircleOutlined,
+  CloseCircleOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  FilterOutlined,
+  SearchOutlined,
+  SortDescendingOutlined,
 } from '@ant-design/icons';
 import { CiCircleRemove } from 'react-icons/ci';
 
-import { ConfigProvider, ProgressProps } from 'antd';
-import { Button, Dropdown, Input, Progress, Table, Avatar, Steps, Popover, DatePicker } from 'antd';
+import { Avatar, Button, ConfigProvider, DatePicker, Dropdown, Input, Popover, Progress, ProgressProps, Steps, Table } from 'antd';
 
 import type { ColumnsType } from 'antd/es/table';
 
 //API Thunk
-import { getAllVideoByUserId } from '@/redux/videos/thunk';
 import { getAllCountry } from '@/redux/countries/thunk';
 import { getAllTopic } from '@/redux/topics/thunk';
+import { getAllVideoByUserId } from '@/redux/videos/thunk';
 import ModalScript from './ModalScript';
 
 //Functions
-import { getRandomColor } from '@/units/units';
 import { useAppDispatch, useAppSelector } from '@/core/hook';
 import { useDebounce } from '@/hooks/hook';
+import { getRandomColor } from '@/units/units';
 
 //Libraries
-import moment from 'moment';
-import _ from 'lodash';
 import dayjs from 'dayjs';
+import _ from 'lodash';
+import moment from 'moment';
 
 //Selector
-import { VideoSelector } from '@/redux/videos/selector';
-import { TopicSelector } from '@/redux/topics/selector';
 import { ProjectSelector } from '@/redux/countries/selector';
+import { TopicSelector } from '@/redux/topics/selector';
+import { VideoSelector } from '@/redux/videos/selector';
 
 import { AppAction } from '@/redux/app/AppSlice';
 
@@ -101,7 +99,7 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
      const limit = useAppSelector(VideoSelector.limit);
      const page = useAppSelector(VideoSelector.page);
      const total = useAppSelector(VideoSelector.total);
-     const videos = useAppSelector(VideoSelector.videos);
+     const videos = useAppSelector(VideoSelector.videos)?.data;
      const topics = useAppSelector(TopicSelector.topics);
      const countries = useAppSelector(ProjectSelector.countries);
 
@@ -671,7 +669,7 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
                          <Table
                               columns={columns}
                               scroll={isSmallScreen ? { x: 1425 } : undefined}
-                              dataSource={videos.map((item: any, index: number) => ({
+                              dataSource={videos?.map((item: any, index: number) => ({
                                    key: (page - 1) * 10 + index + 1,
                                    ...item,
                               }))}

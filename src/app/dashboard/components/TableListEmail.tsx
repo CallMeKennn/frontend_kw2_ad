@@ -1,42 +1,40 @@
 //React
-import React from 'react';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 //Antd
 import {
-     SearchOutlined,
-     CheckOutlined,
-     ClockCircleOutlined,
-     CalendarOutlined,
-     SortDescendingOutlined,
+  CalendarOutlined,
+  CheckOutlined,
+  ClockCircleOutlined,
+  SearchOutlined,
+  SortDescendingOutlined,
 } from '@ant-design/icons';
 import { CiCircleRemove } from 'react-icons/ci';
 
-import { ConfigProvider } from 'antd';
-import { Button, Dropdown, Input, Table, Avatar } from 'antd';
+import { Avatar, Button, ConfigProvider, Dropdown, Input, Table } from 'antd';
 
 import type { ColumnsType } from 'antd/es/table';
 
 //API Thunk
-import { getAllEmailManageByUserId } from '@/redux/videos/thunk';
 import { getAllCountry } from '@/redux/countries/thunk';
 import { getAllTopic } from '@/redux/topics/thunk';
+import { getAllEmailManageByUserId } from '@/redux/videos/thunk';
 
 //Functions
-import { getRandomColor } from '@/units/units';
 import { useAppDispatch, useAppSelector } from '@/core/hook';
 import { useDebounce } from '@/hooks/hook';
+import { getRandomColor } from '@/units/units';
 
 //Libraries
 import _ from 'lodash';
 
 //Selector
-import { VideoSelector } from '@/redux/videos/selector';
-import { TopicSelector } from '@/redux/topics/selector';
 import { ProjectSelector } from '@/redux/countries/selector';
+import { TopicSelector } from '@/redux/topics/selector';
+import { VideoSelector } from '@/redux/videos/selector';
 
-import '@ant-design/v5-patch-for-react-19';
 import { AppAction } from '@/redux/app/AppSlice';
+import '@ant-design/v5-patch-for-react-19';
 
 interface Props {
      onSearchText: any;
@@ -85,7 +83,8 @@ const TableListEmail = ({ onSearchText }: Props) => {
 
      const topics = useAppSelector(TopicSelector.topics);
      const countries = useAppSelector(ProjectSelector.countries);
-     const emails = useAppSelector(VideoSelector.emails);
+     const emails = useAppSelector(VideoSelector.emails)?.data;
+     console.log("🚀 ~ TableListEmail ~ emails:", emails)
 
      useEffect(() => {
           if (userID) {
@@ -342,7 +341,7 @@ const TableListEmail = ({ onSearchText }: Props) => {
                     >
                          <Table
                               columns={columns}
-                              dataSource={emails.map((item: any, index: number) => ({
+                              dataSource={emails?.map((item: any, index: number) => ({
                                    key: (page - 1) * 10 + index + 1,
                                    ...item,
                               }))}
