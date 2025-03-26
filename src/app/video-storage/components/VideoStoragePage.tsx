@@ -203,27 +203,27 @@ const VideoStoragePage = () => {
       },
       {
         title: 'Số video dự trữ thực tế',
-        dataIndex: 'videoCount',
-        key: 'videoCount',
-        render: (videoCount: any, record: any) => {
+        dataIndex: 'videoDoneCount',
+        key: 'videoDoneCount',
+        render: (videoDoneCount: any, record: any) => {
           const emailCount = record.emailCount || 0;
           const reservedVideos = emailCount * 7;
-          const color = videoCount >= reservedVideos ? 'text-green-500' : 'text-red-500';
-          return <div className={`truncate ${color} font-semibold`}>{videoCount}</div>;
+          const color = videoDoneCount >= reservedVideos ? 'text-green-500' : 'text-red-500';
+          return <div className={`truncate ${color} font-semibold`}>{videoDoneCount}</div>;
         }
       },
       {
         title: 'Thông báo',
         key: 'notification',
         render: (record: any) => {
-          const videoCount = record.videoCount || 0;
+          const videoDoneCount = record.videoDoneCount || 0;
           const emailCount = record.emailCount || 0;
           const reservedVideos = emailCount * 7;
           
-          if (videoCount >= reservedVideos) {
+          if (videoDoneCount >= reservedVideos) {
             return <div className="truncate text-green-500 font-semibold">Đã đủ lượng dự trữ</div>;
           } else {
-            const shortage = reservedVideos - videoCount;
+            const shortage = reservedVideos - videoDoneCount;
             return <div className="truncate text-red-500 font-semibold">Thiếu {shortage} video, cần bổ sung thêm!</div>;
           }
         }
