@@ -9,6 +9,7 @@ export const createVideo = createAsyncThunk(
      async (body: CreateVideoRequest, { rejectWithValue }) => {
           try {
                const response = await VideoRequest.createVideoRequest(body);
+               toast.success('Create script video successfully!');
                return response.data;
           } catch (error: any) {
                toast.error(error.response.data.message);

@@ -413,7 +413,9 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
                     dataIndex: 'publishDate',
                     key: 'publishDate',
                     render: (publishDate: any) => (
-                         <div className="truncate">{moment(publishDate).format('DD/MM/YYYY')}</div>
+                         <div className="truncate">
+                              {publishDate ? moment(publishDate).format('DD/MM/YYYY') : 'Chưa có ngày up!'}
+                         </div>
                     ),
                },
                {

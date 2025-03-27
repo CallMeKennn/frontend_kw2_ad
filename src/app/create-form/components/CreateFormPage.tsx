@@ -134,7 +134,7 @@ const CreateFormPage = () => {
      const handleSubmit = async (e: any) => {
           e.preventDefault();
           if (validateForm()) {
-               dispatch(AppAction.showLoading());
+               // dispatch(AppAction.showLoading());
                const data = await Promise.all(formData.map((videoRequest: any) => dispatch(createVideo(videoRequest))));
                setTimeout(() => {
                     dispatch(AppAction.hiddenLoading());
