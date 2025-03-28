@@ -174,7 +174,7 @@ const TableListVideo = ({ searchText, onSearchText, triggerSearch }: Props) => {
                          {statusFilter === ' receive_video_link_success' && <CheckOutlined className="text-blue-500" />}
                     </div>
                ),
-               key: ' receive_video_link_success',
+               key: 'receive_video_link_success',
           },
           {
                label: (
