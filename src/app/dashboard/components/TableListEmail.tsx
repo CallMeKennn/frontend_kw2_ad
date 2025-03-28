@@ -163,6 +163,14 @@ const TableListEmail = ({ onSearchText }: Props) => {
                     render: (_: any, record: any) => <div className="truncate">{record.countryId.name}</div>,
                },
                {
+                    title: 'Số kịch bản trong hàng đợi',
+                    dataIndex: 'queuedCount',
+                    key: 'queuedCount',
+                    render: (_: any, record: any) => (
+                         <div className="truncate">{`${record.queuedCount}/${record.videoCount}`}</div>
+                    ),
+               },
+               {
                     title: 'Số Kịch Bản Đã Hoàn Thành',
                     render: (_: any, record: any) => (
                          <div className="truncate">{`${record.scriptVideoCount}/${record.videoCount}`}</div>
