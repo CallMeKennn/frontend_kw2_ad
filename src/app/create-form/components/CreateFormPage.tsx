@@ -64,20 +64,33 @@ const CreateFormPage = () => {
           if (topicId && topics.length > 0) {
                const selectedTopic = topics.find((topic: any) => topic._id === topicId);
 
-               if (selectedTopic && selectedTopic.countVideo) {
-                    setVideoCount(selectedTopic.countVideo);
-               }
+               if (selectedTopic) {
+                    // Cập nhật số lượng video từ topic
+                    if (selectedTopic.countVideo) {
+                         setVideoCount(selectedTopic.countVideo);
+                    }
 
-               if (selectedTopic && selectedTopic.language) {
-                    // Lấy danh sách các quốc gia từ topic đã chọn
-                    const countries = selectedTopic.language.map((lang: any) => ({
-                         _id: lang._id,
-                         name: lang.name,
-                    }));
-                    setTopicCountries(countries);
+                    // Xử lý các ngôn ngữ từ topic
+                    if (selectedTopic.language) {
+                         const countries = selectedTopic.language.map((lang: any) => ({
+                              _id: lang._id,
+                              name: lang.name,
+                         }));
+                         setTopicCountries(countries);
 
-                    // Reset form data khi chọn topic mới
-                    setFormData([]);
+                         // Tạo formData mới với tất cả ngôn ngữ được chọn sẵn
+                         const newFormData = countries.map((country: any) => ({
+                              videoCount: selectedTopic.countVideo || videoCount,
+                              topicId,
+                              countryId: country._id,
+                              ...(startDate.trim() !== '' ? { startDate } : {}),
+                         }));
+
+                         setFormData(newFormData);
+                    } else {
+                         setTopicCountries([]);
+                         setFormData([]);
+                    }
                } else {
                     setTopicCountries([]);
                     setFormData([]);
@@ -88,22 +101,39 @@ const CreateFormPage = () => {
           }
      }, [topicId, topics]);
 
+     // Cập nhật formData khi videoCount hoặc startDate thay đổi
+     useEffect(() => {
+          if (formData.length > 0) {
+               setFormData((prevFormData) =>
+                    prevFormData.map((item) => ({
+                         ...item,
+                         videoCount,
+                         ...(startDate.trim() !== '' ? { startDate } : {}),
+                    })),
+               );
+          }
+     }, [videoCount, startDate]);
+
      const handleCountryChange = (e: any, countryId: string) => {
           const checked = e.target.checked;
 
           setFormData((prev) => {
                if (checked) {
-                    const newItem: FormDataItem = {
-                         videoCount,
-                         topicId,
-                         countryId,
-                    };
+                    // Kiểm tra xem countryId đã tồn tại trong formData chưa
+                    if (!prev.some((item) => item.countryId === countryId)) {
+                         const newItem: FormDataItem = {
+                              videoCount,
+                              topicId,
+                              countryId,
+                         };
 
-                    if (startDate.trim() !== '') {
-                         newItem.startDate = startDate;
+                         if (startDate.trim() !== '') {
+                              newItem.startDate = startDate;
+                         }
+
+                         return [...prev, newItem];
                     }
-
-                    return [...prev, newItem];
+                    return prev;
                } else {
                     return prev.filter((item) => item.countryId !== countryId);
                }
@@ -163,8 +193,30 @@ const CreateFormPage = () => {
                          <input
                               type="number"
                               min="1"
-                              value={videoCount}
-                              onChange={(e) => setVideoCount(Number(e.target.value))}
+                              value={videoCount === 0 ? '' : videoCount}
+                              onChange={(e) => {
+                                   const value = e.target.value;
+                                   if (value === '' || /^\d*$/.test(value)) {
+                                        setVideoCount(value === '' ? 0 : Math.max(1, Number(value)));
+                                   }
+                              }}
+                              onBlur={(e) => {
+                                   if (e.target.value === '' || Number(e.target.value) < 1) {
+                                        setVideoCount(1);
+                                   }
+                              }}
+                              onKeyDown={(e) => {
+                                   if (
+                                        !/[0-9]/.test(e.key) &&
+                                        e.key !== 'Backspace' &&
+                                        e.key !== 'Delete' &&
+                                        e.key !== 'ArrowLeft' &&
+                                        e.key !== 'ArrowRight' &&
+                                        e.key !== 'Tab'
+                                   ) {
+                                        e.preventDefault();
+                                   }
+                              }}
                               className="w-full border p-2 rounded-md focus:ring focus:ring-blue-300 bg-[rgba(255,255,255,0.05)]"
                          />
                     </div>
