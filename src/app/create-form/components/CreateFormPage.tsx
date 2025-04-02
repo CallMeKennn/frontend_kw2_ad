@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/core/hook';
 
-import { getAllCountry } from '@/redux/countries/thunk';
 import { getAllTopic } from '@/redux/topics/thunk';
 import { createVideo } from '@/redux/videos/thunk';
 
@@ -22,24 +21,27 @@ interface FormDataItem {
      startDate?: string;
 }
 
+interface Country {
+     _id: string;
+     name: string;
+}
+
 const CreateFormPage = () => {
      const dispatch = useAppDispatch();
      const router = useRouter();
 
      // State selector
      const topics = useAppSelector(TopicSelector.topics);
-     const countries = useAppSelector(ProjectSelector.countries);
      const status = useAppSelector(ProjectSelector.status);
 
      const [formData, setFormData] = useState<FormDataItem[]>([]);
      const [videoCount, setVideoCount] = useState(1);
      const [topicId, setTopicId] = useState('');
      const [startDate, setStartDate] = useState('');
-     const [availableLanguages, setAvailableLanguages] = useState<string[]>([]);
+     const [topicCountries, setTopicCountries] = useState<Country[]>([]);
      const [errors, setErrors] = React.useState<any>({});
 
      useEffect(() => {
-          dispatch(getAllCountry({}));
           dispatch(getAllTopic({}));
      }, []);
 
@@ -67,37 +69,24 @@ const CreateFormPage = () => {
                }
 
                if (selectedTopic && selectedTopic.language) {
-                    const languageIds = selectedTopic.language.map((lang: any) => lang._id);
-                    setAvailableLanguages(languageIds);
+                    // Lấy danh sách các quốc gia từ topic đã chọn
+                    const countries = selectedTopic.language.map((lang: any) => ({
+                         _id: lang._id,
+                         name: lang.name,
+                    }));
+                    setTopicCountries(countries);
+
+                    // Reset form data khi chọn topic mới
+                    setFormData([]);
                } else {
-                    setAvailableLanguages([]);
+                    setTopicCountries([]);
                     setFormData([]);
                }
           } else {
-               setAvailableLanguages([]);
+               setTopicCountries([]);
                setFormData([]);
           }
      }, [topicId, topics]);
-
-     useEffect(() => {
-          if (topicId && availableLanguages.length > 0) {
-               const newFormData = availableLanguages.map((countryId: any) => {
-                    const item: FormDataItem = {
-                         videoCount,
-                         topicId,
-                         countryId,
-                    };
-
-                    if (startDate.trim() !== '') {
-                         item.startDate = startDate;
-                    }
-
-                    return item;
-               });
-
-               setFormData(newFormData);
-          }
-     }, [availableLanguages, startDate, videoCount]);
 
      const handleCountryChange = (e: any, countryId: string) => {
           const checked = e.target.checked;
@@ -145,10 +134,6 @@ const CreateFormPage = () => {
           }
      };
 
-     const isCountryAvailable = (countryId: string) => {
-          return availableLanguages.includes(countryId);
-     };
-
      return (
           <div className="max-w-lg mx-auto p-6 rounded-lg shadow-lg bg-slate-600">
                <h2 className="text-2xl font-semibold text-center ">Biểu mẫu nhập liệu</h2>
@@ -184,32 +169,26 @@ const CreateFormPage = () => {
                          />
                     </div>
 
-                    <div>
-                         <label className="block font-medium">Ngôn ngữ *</label>
-                         {countries &&
-                              countries.map(({ _id, name }: any) => (
+                    {topicId && topicCountries.length > 0 && (
+                         <div>
+                              <label className="block font-medium">Ngôn ngữ *</label>
+                              {topicCountries.map(({ _id, name }: any) => (
                                    <div key={_id} className="mb-2">
                                         <div className="flex items-center space-x-2">
                                              <input
                                                   type="checkbox"
                                                   id={_id}
                                                   value={_id}
-                                                  disabled={!isCountryAvailable(_id)}
                                                   checked={formData.some((item) => item.countryId === _id)}
                                                   onChange={(e) => handleCountryChange(e, _id)}
-                                                  className={!isCountryAvailable(_id) ? 'opacity-50' : ''}
                                              />
-                                             <label
-                                                  htmlFor={_id}
-                                                  className={!isCountryAvailable(_id) ? 'text-gray-400' : ''}
-                                             >
-                                                  {name}
-                                             </label>
+                                             <label htmlFor={_id}>{name}</label>
                                         </div>
                                    </div>
                               ))}
-                         {errors.formData && <p className="text-red-500 text-sm">{errors.formData}</p>}
-                    </div>
+                              {errors.formData && <p className="text-red-500 text-sm">{errors.formData}</p>}
+                         </div>
+                    )}
 
                     <div>
                          <label className="block font-medium">Ngày giờ *</label>
