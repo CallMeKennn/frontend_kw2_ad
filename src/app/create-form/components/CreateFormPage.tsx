@@ -33,6 +33,7 @@ const CreateFormPage = () => {
      // State selector
      const topics = useAppSelector(TopicSelector.topics);
      const status = useAppSelector(ProjectSelector.status);
+     console.log('🔍 ~  ~ frontend_kw2_ad/src/app/create-form/components/CreateFormPage.tsx:35 ~ status:', status);
 
      const [formData, setFormData] = useState<FormDataItem[]>([]);
      const [videoCount, setVideoCount] = useState(1);
@@ -70,11 +71,11 @@ const CreateFormPage = () => {
                          setVideoCount(selectedTopic.countVideo);
                     }
 
-                    // Xử lý các ngôn ngữ từ topic
-                    if (selectedTopic.language) {
-                         const countries = selectedTopic.language.map((lang: any) => ({
-                              _id: lang._id,
-                              name: lang.name,
+                    // Xử lý các ngôn ngữ từ folderLang
+                    if (selectedTopic.folderLang && selectedTopic.folderLang.length > 0) {
+                         const countries = selectedTopic.folderLang.map((item: any) => ({
+                              _id: item.language._id,
+                              name: item.language.name,
                          }));
                          setTopicCountries(countries);
 

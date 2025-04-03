@@ -12,7 +12,7 @@ const initialState: VideoState = {
      totalPages: null,
      videos: [],
      video: null,
-     videoStorages:[],
+     videoStorages: [],
 
      //Pagination of email
      totalEmail: null,
@@ -56,11 +56,7 @@ const VideoSlice = createSlice({
                     state.error = null;
                })
                .addCase(createVideo.fulfilled, (state: VideoState, { payload }: PayloadAction<any>) => {
-                    const { processedCount, totalSuccess } = payload;
                     state.status = 'succeeded';
-                    totalSuccess == 0
-                         ? toast.error(`Lỗi tạo video`)
-                         : toast.success(`Tạo thành công ${totalSuccess}/${processedCount}`);
                })
                .addCase(createVideo.rejected, (state: VideoState, { payload }: PayloadAction<any>) => {
                     state.status = 'failed';
@@ -110,7 +106,7 @@ const VideoSlice = createSlice({
                     state.error = null;
                })
                .addCase(getVideoStorageByUserId.fulfilled, (state: VideoState, { payload }: PayloadAction<any>) => {
-                    const { videoStorages, total, page, limit, totalPages} = payload
+                    const { videoStorages, total, page, limit, totalPages } = payload;
                     state.status = 'succeeded';
                     state.videoStorages = videoStorages;
                     state.limitVideoStorages = limit;
@@ -121,7 +117,7 @@ const VideoSlice = createSlice({
                .addCase(getVideoStorageByUserId.rejected, (state: VideoState, { payload }: PayloadAction<any>) => {
                     state.status = 'failed';
                     state.error = payload as string;
-               })
+               });
      },
 });
 
